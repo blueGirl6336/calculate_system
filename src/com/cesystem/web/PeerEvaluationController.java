@@ -1,0 +1,64 @@
+package com.cesystem.web;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cesystem.pojo.WinPrize;
+import com.cesystem.service.PeerEvaluationService;
+import com.cesystem.temp.PeerEvaluationTemp;
+import com.cesystem.util.ResponseMapUtil;
+
+@Controller
+@RequestMapping(value = "/PeerEvaluation")
+public class PeerEvaluationController {
+
+	@Autowired
+	private HttpServletRequest request;
+	@Autowired
+	private PeerEvaluationService peerEvaluationService;
+	
+	private int studentId;
+	
+	@RequestMapping(value = "/PeerEvaluationScore")
+	@ResponseBody
+	public List<PeerEvaluationTemp> getStudentPeerEvaluation()
+	{
+		HttpSession session = request.getSession();
+		studentId = (Integer) session.getAttribute("studentId");
+		List<PeerEvaluationTemp> list = new ArrayList<PeerEvaluationTemp>();
+		list = peerEvaluationService.getPeerEvaluation(studentId);
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "/makePeerEvaluation")
+	@ResponseBody
+	public boolean setPeerEvaluation(@RequestParam String[] stringExc, @RequestParam String[] stringGood, @RequestParam String[] stringMod, @RequestParam String[] stringCom)
+	{
+		HttpSession session = request.getSession();
+		studentId = (Integer) session.getAttribute("studentId");
+		
+		boolean isSuccess = peerEvaluationService.addPeerEvaluation(stringExc, stringGood, stringMod, stringCom, studentId);
+		
+		return isSuccess;
+	}
+	
+	@RequestMapping(value = "/getPeerEvaluationByClassNumber")
+	@ResponseBody
+	public  Map<String, Object> getPeerEvaluationByClassNumber(@RequestParam String classNumber)
+	{
+		List<PeerEvaluationTemp> peerEvaluationTempList = peerEvaluationService.getPeerEvaluationByClassNumber(classNumber);
+
+		return ResponseMapUtil.responseSuccess(peerEvaluationTempList);
+	}
+}

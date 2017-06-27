@@ -1,0 +1,80 @@
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,fieldset,table,td,img,div,dl,dt,dd{margin: 0;padding: 0;border:0;}
+body{font-size: 14px;font-family: "Microsoft YaHei";}
+img{border: none;}
+ul,ol{list-style: none;}
+a{text-decoration: none;}
+
+.name,.need,.area,.pDetail,.aDetail{
+	color: #3c3e40;
+	margin-right: 118px;
+	font-size: 18px;
+	font-family: 微软雅黑;
+	font-weight: bold;
+
+}
+
+.Name,.Need,.PDetail,.ADetail{
+	margin-top: 32px;
+	margin-left: 100px;
+}
+.prizeName,.prizeNeed,.prizeDetail,.addDetail{
+	width: 800px;
+	margin-top: 10px;
+	font-size: 18px;
+}
+
+.Check{
+	text-align: center;
+	margin-top: 42px;
+	width: 80px;
+	height: 25px;
+	background-size: 80px 25px;
+	margin-left: 480px;
+}
+.Check a{
+	display: block;
+	background: url(../img/button_release_default.png) no-repeat;
+	padding-top: 2px;
+	padding-bottom: 6px;
+	color: black;
+	background-size: 80px 25px;
+	text-decoration: none;
+}
+.Check a:hover{
+	background: url(../img/button_release_pressed.png) no-repeat;
+	color: black;
+	background-size: 80px 25px;
+	text-decoration: none;
+}
+
+#customers
+  {
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+  width:86%;
+  border-collapse:collapse;
+  margin-left: 7%;
+  margin-top: 32px;
+  }
+
+#customers td, #customers th 
+  {
+  font-size:1.5em;
+  border:1px solid rgb(7,82,121);
+  padding:3px 7px 2px 7px;
+  }
+
+#customers th 
+  {
+  font-size:1.5em;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#337ab7;
+  color:#ffffff;
+  }
+
+#customers tr.alt td 
+  {
+  color:#000000;
+  background-color:#337ab7;
+  }

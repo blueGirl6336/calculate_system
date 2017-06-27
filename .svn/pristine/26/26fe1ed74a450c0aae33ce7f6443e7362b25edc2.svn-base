@@ -1,0 +1,108 @@
+//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+
+$.ajax({
+		url:"../prizeApplication/getPrizeApplization.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+
+			var dataList = data;
+
+			var grid_data = [];
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("number",i+1);
+				temp.put("name",dataList[i].prize.prizeName);
+				temp.put("date",dataList[i].times);
+				if(dataList[i].status == 200001)
+				{
+					temp.put("status","未审核");
+				}
+				if(dataList[i].status == 200002)
+				{
+					temp.put("status","已同意");
+				}
+				if(dataList[i].status == 200003)
+				{
+					temp.put("status","已拒绝");
+				}
+				
+				grid_data.push(temp.data);
+			}
+
+jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			colNames: ['奖项编号', '奖项名称', '申诉日期', '申诉状态'],
+			colModel: [{
+				name: 'number',
+				index: 'number',
+				//width: 60,
+				align:"center"
+			}, {
+				name: 'name',
+				index: 'name',
+				//width: 90,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'date',
+				index: 'date',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'status',
+				index: 'status',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			}],
+			rowNum: 40,
+			height:600,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			caption: dataList[0].classNumber,
+			autowidth: true,
+			autoheight:true,
+			//forceFit:false,
+			});
+		}
+	});

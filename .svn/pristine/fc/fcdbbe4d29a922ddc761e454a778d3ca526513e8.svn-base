@@ -1,0 +1,14 @@
+html,.login
+{
+	margin:0;
+	padding:0;
+	height:100%;
+	background-color:rgb(228,230,229);
+}
+h2
+{
+	position:relative;
+	top:-20px;
+	border-bottom: 3px solid;
+	border-color: rgb(228,230,229);
+}

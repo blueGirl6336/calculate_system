@@ -1,0 +1,269 @@
+//javascript
+$(function() {
+	//通过学号查学生的接口
+	var uById = '/student/getByUserName';
+	//通过姓名查
+	var uByName = "/student/getByStudentName";
+	//获得所有部门
+	var uGetApart = '/apartment/getAll';
+	//分配部门
+	var uDis = "/apartment/distribute";
+
+	//首先要获得部门
+	//没问题应该
+	$.ajax({
+		url: uGetApart,
+		type: 'POST',
+		dataType: 'json',
+		success: function(data) {
+			//{"data":[{"remark":null,"apartmentId":3,"apartmentName":"学习部"},{"remark":null,"apartmentId":4,"apartmentName":"普通学生"}],"success":true}
+			if (data.success) {
+				dealApart(data.data);
+			} else {
+				layer.msg(data.msg, {icon: 0});
+			}
+			
+		},
+		error: function() {
+			layer.alert("获取部门失败！", {
+					  skin: 'layui-layer-molv' 
+					  ,closeBtn: 0
+					  ,shift: 4
+					});		
+		}
+	})
+	.done(function() {
+		console.log("success");
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
+	
+	var t = {"data":{"password":"123","userName":"151110322","studentName":"可以","classNumber":"1511103","studentId":23},"success":true};
+	var m = {"data":[{"remark":"null","apartmentId":3,"apartmentName":"学习部"},{"remark":"null","apartmentId":4,"apartmentName":"普通学生"}],"success":true};
+	
+	dealSearch(t.data);
+	dealApart(m.data);
+
+	//处理查询的点击事件
+	$("#queryStudent").click(function(event) {
+
+		/* Act on the event */
+		if ($("#inputId").val() == '' && $("#inputName").val() == '') {
+
+     		layer.alert('请至少输入一个项目，亲！', {
+			  skin: 'layui-layer-molv' 
+			  ,closeBtn: 0
+			  ,shift: 1
+			});
+
+		} else {
+			if ($("#inputId").val() != '') {
+				//构造json数据
+				var d = {"username": $("#inputId").val()};
+				//通过id查询
+				searchStu(uById, d);
+			} else if ($("#inputName").val() != '') {
+				var d = {"studentName": $("#inputName").val()};
+				//通过姓名查询
+				searchStu(uByName, d);
+			}
+		}
+	});
+
+	//查询函数
+	//他貌似使用的是get
+	function searchStu(u, d) {
+		$.ajax({
+			url: u,
+			type: 'GET',
+			dataType: 'json',
+			data: d,
+			success: function(data) {
+				//根据学号查询{"data":{"password":"123","userName":"151110322","studentName":"可以","classNumber":"1511103","studentId":23},"success":true}
+				//根据姓名查询应该是一样的，只不过data变成了一个数组
+				//学号查询失败会发生错误，不反悔信息
+				//信命查询失败显示{"message":"学生不存在","success":false}
+				if (data.success)
+					dealSearch(data.data);
+				else
+					layer.alert('查无此人！', {
+						 skin: 'layui-layer-molv' 
+						 ,closeBtn: 0
+						 ,shift: 2
+					});
+			},
+			error: function() {
+				/* Act on the event */
+				//查询无果返回错误
+				layer.alert('查无此人！', {
+					 skin: 'layui-layer-molv' 
+					 ,closeBtn: 0
+					 ,shift: 2
+				});
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		
+	}
+
+	//处理显示学生的表格
+	function dealSearch(d) {
+		//先清空
+		$("#tbodyStu").empty();
+
+		//先判断是不是数组对象，是的话说明有好多个，不时地话就是一个
+		if (jQuery.isArray(d)) {
+			$("#inputId").val('');
+			$("#inputName").val('');
+			$("#searchTable").show();
+			//遍历
+			$.each(d, function(index, el) {
+				var sId = el.studentId;
+				var classNumber = el.classNumber;
+				var studentName = el.studentName;
+				var userName = el.userName;
+				var passWord = el.passWord;
+
+				//拼接字符串
+				var $str = $('<tr id="'+ sId +'" name="'+sId+'"> <td><input class="stu" type="radio" name="chooseStu"></td> <td>'+userName+
+						'</td> <td>' + studentName+'</td> <td>'+classNumber+'</td></tr>');
+
+				$("#tbodyStu").append($str);
+
+			});
+		} else {
+			//不是数组对象的话
+			//拼接字符串
+			$("#inputId").val('');
+			$("#inputName").val('');
+			$("#searchTable").show();
+
+			var sId = d.studentId;
+			var classNumber = d.classNumber;
+			var studentName = d.studentName;
+			var userName = d.userName;
+			var passWord = d.passWord;
+
+			var $str = $('<tr id="'+ sId +'" name="'+sId+'"> <td><input class="stu" type="radio" name="chooseStu"></td> <td>'+userName+
+					'</td> <td>' + studentName+'</td> <td>'+classNumber+'</td></tr>');
+
+			$("#tbodyStu").append($str);
+		}
+			
+	}
+
+	//处理现实部门
+	function dealApart(d) {
+
+		$.each(d, function(index, el) {
+			var apartmentId = el.apartmentId;
+			var aptName = el.apartmentName;
+			var remark = el.remark;
+
+			var $str = $('<tr id="'+apartmentId+'" name="'+apartmentId+'"><td><input class="apt" type="radio" name="chooseApt"></td>' + 
+              			'<td>'+ aptName +'</td><td>'+ '权限' +'</td></tr>'                                      
+                        );
+
+			$("#tbodyDpt").append($str);
+		});
+	}
+
+	//单击提交时
+	$("#subBtn").click(function(event) {
+		/* Act on the event */
+		//获得选中的tr
+		var $seaChecked = $("#tbodyStu > tr:has(input:checked)");
+		var $aptChecked = $("#tbodyDpt > tr:has(input:checked)");
+		var sId = '';
+
+		if ($seaChecked.length == 0 || $seaChecked.length > 1) {
+			layer.alert('请选择一名学生以及至少一个部门，亲！', {
+			  skin: 'layui-layer-molv' 
+			  ,closeBtn: 0
+			  ,shift: 2
+			});
+			return;
+		} else {
+			sId = $seaChecked[0].getAttribute("name");
+		}
+
+		if ($aptChecked.length == 0) {
+			layer.alert('请选择至少一个部门，亲！', {
+			  skin: 'layui-layer-molv' 
+			  ,closeBtn: 0
+			  ,shift: 2
+			});
+
+			return;
+		} else {
+			$.each($aptChecked, function(index, el) {
+				//el变成了js对象
+				//分配学僧
+				distribute(sId, el.getAttribute("name"));
+			});
+		}
+	});
+
+	//进行学生的部门分配
+	function distribute(sId, aId) {
+		$.ajax({
+			url: uDis,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				"apartmentId": aId, 
+				"studentId" : sId
+			},
+			success: function(data) {
+				//{"message":"修改成功","success":true}
+				if (data.success) {
+					layer.alert(data.message, {
+					  skin: 'layui-layer-molv' 
+					  ,closeBtn: 0
+					  ,shift: 5
+					});
+				}
+
+			},
+			error: function() {
+				/* Act on the event */
+				layer.alert('修改失败！', {
+				  skin: 'layui-layer-molv' 
+				  ,closeBtn: 0
+				  ,shift: 5
+				});
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+			// alert("shibai ");
+		});
+		
+	}
+	//默认的样式,先不添加这个功能
+// 	$("#tbodyDpt > tr").click(function(event) {
+// 		/* Act on the event */
+// 		var hasSelected = $(this).hasClass('selected');
+// 		$(this)[hasSelected ? "removeClass" : "addClass"]('selected');
+// 		$(this).find(':checkbox').attr('checked', !hasSelected);
+// 	});
+})

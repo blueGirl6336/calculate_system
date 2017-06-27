@@ -1,0 +1,5 @@
+package com.cesystem.dao;
+
+public interface ScoreItemsDao extends BaseDao {
+
+}

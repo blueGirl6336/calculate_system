@@ -1,0 +1,21 @@
+package com.cesystem.service;
+
+import java.util.List;
+
+import com.cesystem.pojo.ScoreApplication;
+
+public interface ScoreApplicationService {
+
+    void addScoreApplication(ScoreApplication scoreApplication);
+    
+    void modifyScoreApplication(ScoreApplication scoreApplication);
+    
+    void deleteScoreApplication(ScoreApplication scoreApplication);
+    
+    List<ScoreApplication> searchScoreApplicationByUserName(String userName);
+
+    List<ScoreApplication> searchScoreApplicationByApartmentId(String apartmentId);
+    
+    List<ScoreApplication> searchAllScoreApplication();
+	
+}

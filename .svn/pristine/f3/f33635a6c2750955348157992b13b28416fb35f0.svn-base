@@ -1,0 +1,41 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.AddScoreDao;
+import com.cesystem.pojo.AddScore;
+import com.cesystem.service.AddScoreService;
+
+@Service
+public class AddScoreServiceImpl implements AddScoreService {
+
+	@Autowired
+	AddScoreDao addScoreDao;
+	
+	//申请添加加分项
+	@Override
+	public void addAddScore(AddScore addScore) {
+		this.addScoreDao.add(addScore);
+	}
+
+	//修改申请添加加分项信息
+	@Override
+	public void modifyAddScore(AddScore addScore) {
+		addScoreDao.update(addScore);
+	}
+
+	//删除申请添加加分项信息
+	@Override
+	public void deleteAddScore(AddScore addScore) {
+		addScoreDao.delete(addScore);
+	}
+
+	//根据部门查询
+	@Override
+	public List<AddScore> searchAddScoreByApartmentId(int apartmentId) {
+		return addScoreDao.searchAddScoreByApartmentId(apartmentId);
+	}
+}

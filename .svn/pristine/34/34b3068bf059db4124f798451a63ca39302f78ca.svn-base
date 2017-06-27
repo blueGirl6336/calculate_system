@@ -1,0 +1,213 @@
+/*
+
+body
+{
+	width:100%;
+	height:1000px;
+}
+
+.navbar-collapse
+{
+	height:1000px;
+}
+#main-info
+{
+	height:1180px;
+	width:1245px;
+}
+#main-table
+{
+	height:1070px;
+	width:1150px;
+}
+#see-rank
+{
+	width:1150px;
+}
+#see-rank-table
+{
+	position: absolute;
+	margin-top: 8px;
+	margin-left:60px;
+	width:1000px;
+}
+.checkbox
+{
+	width:200px;
+}
+.number
+{
+	width:200px;
+}
+.name
+{
+	width:300px;
+}
+.date
+{
+	width:200px;
+}
+#see-rank-table tr
+{
+	height:23.7px;
+}
+#see-rank-table tr td
+{
+	padding:0px;
+	margin-top: 0px;
+	height:23.6px;
+	line-height: 23px;
+	text-align: center;
+	font-size: 14px;
+	overflow: hidden;
+}
+#tr0
+{
+	height:30px;
+	text-align: center;
+	background-color: rgb(80,124,209);
+	font-family: "微软雅黑";
+	font-size:16px;
+	color: #fff;
+	font-weight: bold;
+}
+.color
+{
+	background-color: rgb(239,243,251);
+}
+*/
+
+/*
+.navbar-collapse
+{
+	height:1000px;
+}
+*/
+#main-info
+{
+	height:830px;
+	width:1245px;
+}
+#main-table
+{
+	height:700px;
+	width:1130px;
+}
+#see-rank
+{
+	width:1130px;
+}
+#appeal
+{
+	position:absolute;
+	margin-top: -43px;
+	margin-left: 920px;
+	width:80px;
+	height:25px;
+	border-radius: 5px;
+	background-color: rgb(80,124,209);
+	color:#fff;
+	font-size: 16px;
+}
+/*#see-rank-table
+{
+	position: absolute;
+	margin-left: 40px;
+	margin-top: 10px;
+	width:1024px;
+	/*border:1px solid red;
+}*/
+.checkbox
+{
+	position:relative;
+	top:-10px;
+	width:200px;
+}
+.number
+{
+	width:200px;
+}
+.name
+{
+	width:400px;
+}
+.date
+{
+	width:200px;
+}
+#see-rank-table tr
+{
+	height:23.7px;
+}
+
+#see-rank-table td
+{
+	text-align: center;
+	font-size: 14px;
+}
+#tr0
+{
+	height:30px;
+	text-align: center;
+	background-color: rgb(80,124,209);
+	font-family: "微软雅黑";
+	font-size:16px;
+	color: #fff;
+	font-weight: bold;
+}
+.color
+{
+	background-color: rgb(239,243,251);
+}
+
+
+#appealMyPrize
+{
+	width: 500px;
+	height: 320px; 
+	position: fixed;
+	margin-top: 0px;
+	margin-left:300px;
+	z-index: 99999; 
+	display: none;
+	background-color: rgb(245,245,245);
+}
+#systemTitle
+{
+	height:40px;
+	text-align: center;
+	background-color: rgb(51,122,183);
+	color: #fff;
+	font-size: 20px;
+	border:2px solid grey;
+}
+#tip
+{
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 16px;
+}
+#text
+{
+	width:400px;
+	height:150px;
+	position: absolute;
+	margin-left:50px;
+}
+#ok
+{
+	width: 80px;
+	height: 30px;
+	position: absolute;
+	left: 150px;
+	margin-top: 180px;
+}
+#cancel
+{
+	width: 80px;
+	height: 30px;
+	position: absolute;
+	left: 250px;
+	margin-top: 180px;
+}

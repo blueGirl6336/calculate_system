@@ -1,0 +1,59 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.ScoreApplicationDao;
+import com.cesystem.pojo.ScoreApplication;
+import com.cesystem.service.ScoreApplicationService;
+
+@Service
+public class ScoreApplicationServiceImpl implements ScoreApplicationService {
+
+	@Autowired
+	private ScoreApplicationDao scoreApplicationDao;
+
+	//录入分数申请信息
+	@Override
+	public void addScoreApplication(ScoreApplication scoreApplication) {
+		scoreApplicationDao.add(scoreApplication);
+	}
+
+	//修改分数申请信息
+	@Override
+	public void modifyScoreApplication(ScoreApplication scoreApplication) {
+		scoreApplicationDao.update(scoreApplication);
+	}
+
+	//删除分数申请信息
+	@Override
+	public void deleteScoreApplication(ScoreApplication scoreApplication) {
+		scoreApplicationDao.delete(scoreApplication);
+	}
+
+	//根据学号查找分数申请信息
+	@Override
+	public List<ScoreApplication> searchScoreApplicationByUserName(String userName) {
+		List<ScoreApplication> scoreApplicationList = scoreApplicationDao.searchScoreApplicationByUserName(userName);
+		return scoreApplicationList;
+	}
+
+	//根据学生会成员的部门查找
+	@Override
+	public List<ScoreApplication> searchScoreApplicationByApartmentId(
+			String apartmentId) {
+		List<ScoreApplication> scoreApplicationList = scoreApplicationDao.searchScoreApplicationByApartmentId(apartmentId);
+		return scoreApplicationList;
+	}
+	
+	//查找所有分数申请信息
+	@Override
+	public List<ScoreApplication> searchAllScoreApplication() {
+		List<ScoreApplication> scoreApplicationList = scoreApplicationDao.searchAllScoreApplication();
+				return scoreApplicationList;
+	}
+
+	
+}

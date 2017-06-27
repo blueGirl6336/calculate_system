@@ -1,0 +1,41 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.AddPrizeDao;
+import com.cesystem.pojo.AddPrize;
+import com.cesystem.service.AddPrizeService;
+
+@Service
+public class AddPrizeServiceImpl implements AddPrizeService {
+
+	@Autowired
+	AddPrizeDao addPrizeDao;
+	
+	//申请添加加分项
+	@Override
+	public void addAddPrize(AddPrize addPrize) {
+		this.addPrizeDao.add(addPrize);
+	}
+
+	//修改申请添加加分项信息
+	@Override
+	public void modifyAddPrize(AddPrize addPrize) {
+		addPrizeDao.update(addPrize);
+	}
+
+	//删除申请添加加分项信息
+	@Override
+	public void deleteAddPrize(AddPrize addPrize) {
+		addPrizeDao.delete(addPrize);
+	}
+
+	//根据部门查询
+	@Override
+	public List<AddPrize> searchAddPrizeByApartmentId(int apartmentId) {
+		return addPrizeDao.searchAddPrizeByApartmentId(apartmentId);
+	}
+}

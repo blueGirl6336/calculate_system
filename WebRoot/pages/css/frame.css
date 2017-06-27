@@ -1,0 +1,47 @@
+.navbar-static-top
+{
+	background:rgb(7,82,121);
+	height: 50px;
+}
+#title
+{
+	position: absolute;
+	margin-left:20px;
+	margin-top: 8px;
+	font-size: 20px;
+	color:#fff;
+	font-family: 微软雅黑;
+}
+.navbar-collapse
+{
+	margin-top:-50px;
+}
+.fa-bar-chart-o
+{
+	background-image: url(../img/score.png);
+}
+.fa-files-o
+{
+	background-image: url(../img/prize.png);
+}
+.fa-wrench
+{
+	background-image: url(../img/eachOther.png);
+}
+.fa-sitemap
+{
+	background-image: url(../img/suggestion.png);
+}
+.arrow
+{
+	background-image: url(../img/below.png);
+}
+.bigicon1{
+	position: absolute;
+	margin-top: 8px;
+}
+.bigicon2{
+	position: absolute;
+	margin-top: 8px;
+	margin-left: -7px;
+}

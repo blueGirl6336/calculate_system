@@ -1,0 +1,109 @@
+package com.cesystem.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+/**
+ * ChooseClass entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "ChooseClass", schema = "dbo", catalog = "ce_system")
+public class ChooseClass implements java.io.Serializable {
+
+	// Fields
+
+	private Integer ccId;
+	private Student student;
+	private Course course;
+	private Boolean isCurrent;
+	private String status;
+	private Double score;
+
+	// Constructors
+
+	/** default constructor */
+	public ChooseClass() {
+	}
+
+	/** minimal constructor */
+	public ChooseClass(Integer ccId) {
+		this.ccId = ccId;
+	}
+
+	/** full constructor */
+	public ChooseClass(Integer ccId, Student student, Course course,
+			Boolean isCurrent, String status, Double score) {
+		this.ccId = ccId;
+		this.student = student;
+		this.course = course;
+		this.isCurrent = isCurrent;
+		this.status = status;
+		this.score = score;
+	}
+
+	// Property accessors
+	@Id
+	@GeneratedValue
+	@Column(name = "cc_id", unique = true, nullable = false)
+	public Integer getCcId() {
+		return this.ccId;
+	}
+
+	public void setCcId(Integer ccId) {
+		this.ccId = ccId;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "student_id")
+	public Student getStudent() {
+		return this.student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "course_id")
+	public Course getCourse() {
+		return this.course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	@Column(name = "is_current")
+	public Boolean getIsCurrent() {
+		return this.isCurrent;
+	}
+
+	public void setIsCurrent(Boolean isCurrent) {
+		this.isCurrent = isCurrent;
+	}
+
+	@Column(name = "status", length = 50)
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Column(name = "score", precision = 18)
+	public Double getScore() {
+		return this.score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
+}

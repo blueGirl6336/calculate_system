@@ -1,0 +1,54 @@
+
+#exit
+{
+	position: absolute;
+	margin-top:15px;
+	margin-left:950px;
+	font-size: 16px;
+	color:#fff;
+}
+#exit:hover
+{
+	cursor: pointer;
+}
+#main 
+{
+	width:500px;
+	position: relative;
+	left:500px;
+	background-color: #fff;
+}
+#news1
+{
+	height:260px;
+	width:460px;
+	position: relative;
+	left: 20px;
+	border-bottom: 2px solid;
+	border-color: rgb(238,239,243);
+}
+
+#news-title
+{
+	height:45px;
+	line-height: 45px;
+	vertical-align: text-bottom;
+	color: rgb(81,81,81);
+	font-size: 23px;
+	font-weight: bold;
+}
+#news-time
+{
+	height:30px;
+	line-height: 30px;
+	vertical-align: text-bottom;
+	color: rgb(134,134,152);
+	font-size: 14px;
+}
+#news-content
+{
+	height:210px;
+	color: rgb(134,134,152);
+	font-size: 16px;
+	font-family: "微软雅黑";
+}

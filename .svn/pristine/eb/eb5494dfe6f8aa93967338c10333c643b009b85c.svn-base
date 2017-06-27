@@ -1,0 +1,274 @@
+package com.cesystem.util;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
+import com.cesystem.pojo.Prize;
+import com.cesystem.pojo.ScoreItems;
+import com.cesystem.pojo.Student;
+import com.cesystem.pojo.WinPrize;
+import com.cesystem.pojo.WinScore;
+
+public class ExcelUtil {
+
+	public String createScoreExcel(List<Student> studentList) {
+		File file = new File(ConstUtil.XLS_PATH + "Score");
+		if (!file.exists()) {
+
+		}
+		FileOutputStream os;
+		try {
+			Label iteLabel = null;
+			Number iteNumber = null;
+			int ite = 0;
+			os = new FileOutputStream(file);
+			// 创建工作薄
+			WritableWorkbook workbook = Workbook.createWorkbook(os);
+			// 创建新的一页
+			WritableSheet sheet = workbook.createSheet("学生成绩表", 0);
+			// 创建要显示的具体内容
+			Label tUserName = new Label(0, 0, "学号");
+			sheet.addCell(tUserName);
+			Label tStudentName = new Label(1, 0, "学生姓名");
+			sheet.addCell(tStudentName);
+			Label tGpa = new Label(2, 0, "GPA");
+			sheet.addCell(tGpa);
+			Label tGpaSort = new Label(3, 0, "GPA排名");
+			sheet.addCell(tGpaSort);
+			Label tComprehensivePerformance = new Label(4, 0, "综合成绩");
+			sheet.addCell(tComprehensivePerformance);
+			Label tComprehensivePerformanceRanking = new Label(5, 0, "综合成绩排名");
+			sheet.addCell(tComprehensivePerformanceRanking);
+			Label tClass = new Label(6, 0, "班级");
+			sheet.addCell(tClass);
+			for (Student s : studentList) {
+				ite++;
+				iteLabel = new Label(0, ite, s.getUsers().getUserName());
+				sheet.addCell(iteLabel);
+
+				iteLabel = new Label(1, ite, s.getStudentName());
+				sheet.addCell(iteLabel);
+
+				iteNumber = new Number(2, ite, s.getGpa());
+				sheet.addCell(iteNumber);
+
+				iteNumber = new Number(3, ite, s.getGpaSort());
+				sheet.addCell(iteNumber);
+
+				iteNumber = new Number(4, ite, s.getComprehensivePerformance());
+				sheet.addCell(iteNumber);
+
+				iteNumber = new Number(5, ite,
+						s.getComprehensivePerformanceRanking());
+				sheet.addCell(iteNumber);
+
+				iteLabel = new Label(6, ite, s.getClasses().getClassNumber());
+				sheet.addCell(iteLabel);
+			}
+			// 把创建的内容写入到输出流中，并关闭输出流
+			workbook.write();
+			workbook.close();
+			os.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RowsExceededException e) {
+			e.printStackTrace();
+		} catch (WriteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ConstUtil.SERVER_PATH + "Score";
+	}
+
+	public String createStudentScoreItemsExcel(List<Student> studentList,
+			List<ScoreItems> scoreItemsList, List<WinScore> winScoreList) {
+		File file = new File(ConstUtil.XLS_PATH + "StudentScoreItems");
+		if (!file.exists()) {
+
+		}
+		FileOutputStream os;
+		try {
+			Label iteLabel = null;
+			// Number iteNumber = null;
+			// int ite = 0;
+			os = new FileOutputStream(file);
+			// 创建工作薄
+			WritableWorkbook workbook = Workbook.createWorkbook(os);
+			// 创建新的一页
+			WritableSheet sheet = workbook.createSheet("学生加分项表", 0);
+			// 创建要显示的具体内容
+			for (int i = 0; i < scoreItemsList.size(); i++) {
+				iteLabel = new Label(i + 1, 0, scoreItemsList.get(i)
+						.getItemName());
+				sheet.addCell(iteLabel);
+			}
+			for (int i = 0; i < studentList.size(); i++) {
+				iteLabel = new Label(0, i + 1, studentList.get(i)
+						.getStudentName());
+				sheet.addCell(iteLabel);
+				for (WinScore w : winScoreList) {
+					for (int j = 0; j < scoreItemsList.size(); j++) {
+						if (scoreItemsList.get(j).getSiId() == w
+								.getScoreItems().getSiId()) {
+							iteLabel = new Label(j + 1, i + 1, "1");
+							sheet.addCell(iteLabel);
+						}
+					}
+				}
+			}
+			// 把创建的内容写入到输出流中，并关闭输出流
+			workbook.write();
+			workbook.close();
+			os.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RowsExceededException e) {
+			e.printStackTrace();
+		} catch (WriteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ConstUtil.SERVER_PATH + "StudentScoreItems";
+	}
+
+	public String createStudentPrizeExcel(List<Student> studentList,
+			List<Prize> prizeList, List<WinPrize> winPrizeList) {
+		File file = new File(ConstUtil.XLS_PATH + "StudentPrize");
+		if (!file.exists()) {
+
+		}
+		FileOutputStream os;
+		try {
+			Label iteLabel = null;
+			// Number iteNumber = null;
+			// int ite = 0;
+			os = new FileOutputStream(file);
+			// 创建工作薄
+			WritableWorkbook workbook = Workbook.createWorkbook(os);
+			// 创建新的一页
+			WritableSheet sheet = workbook.createSheet("学生奖项表", 0);
+			// 创建要显示的具体内容
+			for (int i = 0; i < prizeList.size(); i++) {
+				iteLabel = new Label(i + 1, 0, prizeList.get(i).getPrizeName());
+				sheet.addCell(iteLabel);
+			}
+			for (int i = 0; i < studentList.size(); i++) {
+				iteLabel = new Label(0, i + 1, studentList.get(i)
+						.getStudentName());
+				sheet.addCell(iteLabel);
+				for (WinPrize w : winPrizeList) {
+					for (int j = 0; j < prizeList.size(); j++) {
+						if (prizeList.get(j).getPrizeId() == w.getPrize()
+								.getPrizeId()) {
+							iteLabel = new Label(j + 1, i + 1, "1");
+							sheet.addCell(iteLabel);
+						}
+					}
+				}
+			}
+			// 把创建的内容写入到输出流中，并关闭输出流
+			workbook.write();
+			workbook.close();
+			os.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RowsExceededException e) {
+			e.printStackTrace();
+		} catch (WriteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ConstUtil.SERVER_PATH + "StudentPrize";
+	}
+
+	/*public void addChooseClassByExcel(String path) {
+		StudentService studentService = new StudentServiceImpl();
+		CourseService courseService = new CourseServiceImpl();
+		ChooseClassService chooseClassService = new ChooseClassServiceImpl();
+		try {
+			Workbook book = Workbook.getWorkbook(new File(path));
+			// 获得第一个工作表对象
+			Sheet sheet = book.getSheet(0);
+			ChooseClass chooseClass;
+			for (int i = 0; i < sheet.getRows(); i++) {
+				chooseClass = new ChooseClass();
+				// 得到第一列第一行的单元格
+				Cell cell = sheet.getCell(0, i+1);
+				chooseClass.setStudent(studentService.searchByUserName(cell
+						.getContents()));
+				cell = sheet.getCell(1, i+1);
+				chooseClass.setCourse(courseService.searchByCourseName(cell
+						.getContents()));
+				chooseClass.setIsCurrent(true);
+				cell = sheet.getCell(2, i+1);
+				chooseClass.setScore(Double.parseDouble(cell.getContents()));
+				chooseClassService.addChooseClass(chooseClass);
+			}
+			book.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
+
+	/*public void addWinPrizeByExcel(String path) {
+		StudentService studentService = new StudentServiceImpl();
+		PrizeService prizeService = new PrizeServiceImpl();
+		WinPrizeService winPrizeService = new WinPrizeServiceImpl();
+		try {
+			Workbook book = Workbook.getWorkbook(new File(path));
+			// 获得第一个工作表对象
+			Sheet sheet = book.getSheet(0);
+			WinPrize winPrize;
+			for (int i = 0; i < sheet.getRows(); i++) {
+				winPrize = new WinPrize();
+				// 得到第一列第一行的单元格
+				Cell cell = sheet.getCell(0, i+1);
+				winPrize.setStudent(studentService.searchByUserName(cell
+						.getContents()));
+				cell = sheet.getCell(1, i+1);
+				winPrize.setPrize(prizeService.getById(Integer.parseInt(cell
+						.getContents())));
+				winPrize.setIsCurrent(true);
+				
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+				java.util.Date date=new java.util.Date();  
+				String time=sdf.format(date); 
+				
+				winPrize.setTime(time);
+				
+				winPrizeService.addWinPrize(winPrize);
+			}
+			book.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
+}

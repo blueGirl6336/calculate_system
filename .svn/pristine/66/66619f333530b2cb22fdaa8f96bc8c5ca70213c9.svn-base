@@ -1,0 +1,223 @@
+$.ajax({
+	url:"../auditScore/searchScoreApplication.do",
+	data:{
+		// apartmentId:"3"
+	},
+	type:"get",
+	dataType:"json",
+	success:function(data){
+
+		var dataList = data.data;
+
+			//创建键值对数组
+		function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+		}
+
+		var grid_data = [];
+
+		for(var i=0;i<dataList.length;i++){
+				var temp = new Dictionary();
+				temp.put("saId",dataList[i].saId);
+				
+				temp.put("itemName",dataList[i].scoreItems.itemName);
+				temp.put("scoreType",dataList[i].scoreItems.scoreType);
+				temp.put("score",dataList[i].scoreItems.score);
+				temp.put("type",dataList[i].type);
+				temp.put("applicationDetail",dataList[i].applicationDetail);
+				temp.put("time",dataList[i].time);
+				temp.put("isAgree",dataList[i].status);
+
+				if(dataList[i].studentByObjectId==null){
+					temp.put("studentName",dataList[i].studentByApplicantId.studentName);
+					temp.put("userName",dataList[i].studentByApplicantId.users.userName);					
+				}
+				else{
+					temp.put("studentName",dataList[i].studentByObjectId.studentName);
+					temp.put("userName",dataList[i].studentByObjectId.users.userName);
+				}
+
+				if(dataList[i].type=="400001"){
+					temp.put("type","申请");
+				}
+				if(dataList[i].type=="400002"){
+					temp.put("type","申诉");
+				}
+				if(dataList[i].type=="400003"){
+					temp.put("type","奖项申请");
+				}
+				if(dataList[i].type=="400004"){
+					temp.put("type","加分申请");
+				}
+				if(dataList[i].type=="400005"){
+					temp.put("type","奖项申诉");
+				}
+				if(dataList[i].type=="400006"){
+					temp.put("type","加分申诉");
+				}
+
+				if(dataList[i].scoreItems.scoreType=="300001"){
+					temp.put("scoreType","日常行为分");
+				}
+				if(dataList[i].scoreItems.scoreType=="300002"){
+					temp.put("scoreType","科技竞赛个性发展分");
+				}
+				if(dataList[i].scoreItems.scoreType=="300003"){
+					temp.put("scoreType","体能分");
+				}
+				if(dataList[i].scoreItems.scoreType=="300004"){
+					temp.put("scoreType","学生工作个性发展分");
+				}
+				if(dataList[i].scoreItems.scoreType=="300005"){
+					temp.put("scoreType","社会实践能力个性发展分");
+				}
+				if(dataList[i].scoreItems.scoreType=="300006"){
+					temp.put("scoreType","辅修及计算机水平个性发展分");
+				}
+				if(dataList[i].scoreItems.scoreType=="300007"){
+					temp.put("scoreType","特殊表彰");
+				}
+
+				if(dataList[i].status=="200001"){
+					temp.put("isAgree","未审核");
+				}
+				if(dataList[i].status=="200002"){
+					temp.put("isAgree","已同意");
+				}
+				if(dataList[i].status=="200003"){
+					temp.put("isAgree","已拒绝");
+				}
+				if(dataList[i].status=="600001"){
+					temp.put("isAgree","待审核");
+				}
+				if(dataList[i].status=="600002"){
+					temp.put("isAgree","审核通过");
+				}
+				if(dataList[i].status=="600003"){
+					temp.put("isAgree","未通过");
+				}
+				if(dataList[i].status=="900001"){
+					temp.put("isAgree","审核中");
+				}
+				if(dataList[i].status=="200002"){
+					temp.put("isAgree","审核成功");
+				}
+				if(dataList[i].status=="200003"){
+					temp.put("isAgree","审核失败");
+				}
+				grid_data.push(temp.data);
+		}
+   		jQuery("#editgrid").jqGrid({
+        	data: grid_data,
+			datatype: "local",
+			height: 250,
+			colNames: ['编号','姓名','学号', '加分名','分数类型','分数','申请类型','申请详情','申请时间','状态'],
+			colModel: [{
+				name: 'saId',
+				index: 'saId',
+				width:80,
+				align:"center",
+				// key:true,
+				editable:true,
+				hidden:true
+			},{
+				name: 'studentName',
+				index: 'studentName',
+				width:100,
+				align:"center"
+			
+			},{
+				name: 'userName',
+				index: 'userName',
+				width:100,
+				editable:true,
+				align:"center"
+			},{
+				name: 'itemName',
+				index: 'itemName',
+				align:"center"
+			},{
+				name: 'scoreType',
+				index: 'scoreType',
+				width:200,
+				align:"center"
+			},{
+				name: 'score',
+				index: 'score',
+				width:75,
+				align:"center"
+			},{
+				name: 'type',
+				index: 'type',
+				width:80,
+				align:"center"
+			
+			},{
+				name: 'applicationDetail',
+				index: 'applicationDetail',
+				align:"center"
+			},{
+				name: 'time',
+				index: 'time',
+				width:120,
+				align:"center"
+			},{
+				name: 'isAgree',
+				index: 'isAgree',
+				align:"center",
+				width:80,
+				editable:true,
+				edittype:"select",
+				editoptions: {
+					value: "1:同意;0:拒绝"
+				}
+			}],
+			rownumbers:true,
+        	rowNum : 20,
+        	rowList : [ 10, 20, 30 ],
+        	pager : '#pagered',
+        	sortname : 'id',
+        	viewrecords : true,
+        	sortorder : "desc",
+        	caption: dataList[0].scoreItems.apartment.apartmentName,
+        	autowidth: true,
+        	height:'auto',
+        	multiselect: false,
+         	editurl : "../auditScore/addAuditScore.do"
+      	});
+
+		$("#editgrid").navGrid("#pagered", {
+				search: true, // 检索
+				add: false, //添加 （只有editable为true时才能显示属性）
+				edit: true, //修改（只有editable为true时才能显示属性）
+				del: false, //删除
+				refresh: true //刷新
+			}, {closeAfterSearch: true, reloadAfterSubmit: true}, // edit options
+			{}, // add options
+			{}, // delete options
+			{
+				multipleSearch: true
+			} // search options - define multiple search
+		);
+   	}
+});

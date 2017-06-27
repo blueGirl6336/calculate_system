@@ -1,0 +1,194 @@
+#main-info
+{
+	height:680px;
+	width:1245px;
+}
+#main-table
+{
+	height:450px;
+	width:1130px;
+}
+#table2
+{
+	position:relative;
+	top:50px;
+}
+
+#table2
+{
+	width:1130px;
+	height:300px;
+	position: absolute;
+	margin-top: 150px;
+}
+
+#appeal
+{
+	width:100px;
+	height:30px;
+	position: relative;
+	top:20px;
+	left:400px;
+}
+#apply
+{
+	width:100px;
+	height:30px;
+	position: relative;
+	top:20px;
+	left:600px;
+}
+
+
+#appealMyPrize
+{
+	width: 500px;
+	height: 320px; 
+	position: fixed;
+	margin-top: -550px;
+	margin-left:300px;
+	z-index: 99999; 
+	display: none;
+	background-color: rgb(245,245,245);
+}
+#systemTitle1
+{
+	height:40px;
+	text-align: center;
+	background-color: rgb(51,122,183);
+	color: #fff;
+	font-size: 20px;
+	border:2px solid grey;
+}
+#tip1
+{
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 16px;
+}
+#text1
+{
+	width:400px;
+	height:150px;
+	position: absolute;
+	margin-left:50px;
+}
+#ok1
+{
+	width: 80px;
+	height: 30px;
+	position: absolute;
+	left: 150px;
+	margin-top: 180px;
+}
+#cancel1
+{
+	width: 80px;
+	height: 30px;
+	position: absolute;
+	left: 250px;
+	margin-top: 180px;
+}
+
+#applyNewPrize
+{
+	width: 500px;
+	height: 320px; 
+	position: fixed;
+	margin-top: -550px;
+	margin-left:300px;
+	z-index: 99999; 
+	display: none;
+	background-color: rgb(245,245,245);
+}
+#prize1
+{
+	width:100px;
+	position: absolute;
+	margin-left: 50px;
+	margin-top: 5px;
+}
+#prize2
+{
+	width:100px;
+	position: absolute;
+	margin-left: 200px;
+	margin-top: 5px;
+}
+#prize3
+{
+	width:100px;
+	position: absolute;
+	margin-left: 350px;
+	margin-top: 5px;
+}
+#systemTitle2
+{
+	height:40px;
+	text-align: center;
+	background-color: rgb(51,122,183);
+	color: #fff;
+	font-size: 20px;
+	border:2px solid grey;
+}
+#tip2
+{
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 16px;
+	position: relative;
+	/*left: 50px;*/
+	top: 30px;
+}
+#text2
+{
+	width:400px;
+	height:150px;
+	position: relative;
+	top:25px;
+	left:50px;
+}
+#ok2
+{
+	width: 80px;
+	height: 30px;
+	position: absolute;
+	left: 150px;
+	margin-top: 190px;
+}
+#cancel2
+{
+	width: 80px;
+	height: 30px;
+	position: absolute;
+	left: 250px;
+	margin-top: 190px;
+}
+
+#exit
+{
+	position: absolute;
+	margin-top:15px;
+	margin-left:1030px;
+	font-size: 16px;
+	color:#fff;
+}
+#exit:hover
+{
+	cursor: pointer;
+}
+
+#studentUnion
+{
+	position: absolute;
+	margin-top:15px;
+	margin-left:880px;
+	font-size: 16px;
+	color:#fff;
+}
+#studentUnion:hover
+{
+	cursor: pointer;
+}

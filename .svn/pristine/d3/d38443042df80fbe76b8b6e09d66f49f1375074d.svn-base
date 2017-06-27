@@ -1,0 +1,27 @@
+package com.cesystem.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.cesystem.dao.AddPrizeDao;
+import com.cesystem.pojo.AddPrize;
+
+@Repository
+public class AddPrizeDaoImpl extends BaseDaoImpl implements AddPrizeDao {
+
+	@Override
+	public List<AddPrize> searchAddPrizeByApartmentId(int apartmentId) {
+		String hql = "from AddPrize as a where a.apartmentId = " + apartmentId;
+		List<AddPrize> addPrizeList = (List<AddPrize>) this.getHibernateTemplate().find(hql);
+		return addPrizeList;
+	}
+
+	@Override
+	public List<AddPrize> getAll() {
+		String hql = "FROM AddPrize";
+		List<AddPrize> addPrizeList = (List<AddPrize>) this.getHibernateTemplate().find(hql);
+		return addPrizeList;
+	}
+
+}

@@ -1,0 +1,28 @@
+package com.cesystem.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cesystem.dao.AddScoreDao;
+import com.cesystem.pojo.AddScore;
+
+@Repository
+public class AddScoreDaoImpl extends BaseDaoImpl implements AddScoreDao {
+
+	@Override
+	public List<AddScore> searchAddScoreByApartmentId(int apartmentId) {
+		String hql = "from AddScore as a where a.apartmentId = " + apartmentId;
+		List<AddScore> addScoreList = (List<AddScore>) this.getHibernateTemplate().find(hql);
+		return addScoreList;
+	}
+
+	@Override
+	public List<AddScore> getAll() {
+		String hql = "FROM AddScore";
+
+		return this.getHibernateTemplate().find(hql);
+	}
+
+}

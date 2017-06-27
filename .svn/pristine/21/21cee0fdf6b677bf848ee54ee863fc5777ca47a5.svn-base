@@ -1,0 +1,66 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.WinScoreDao;
+import com.cesystem.pojo.WinScore;
+import com.cesystem.service.WinScoreService;
+
+@Service
+public class WinScoreServiceImpl implements WinScoreService {
+
+	@Autowired
+	private WinScoreDao winScoreDao;
+
+	// 录入扣分信息和加分信息
+	@Override
+	public void addWinScore(WinScore winScore) {
+		winScoreDao.add(winScore);
+	}
+
+	// 修改扣分和加分信息
+	@Override
+	public void modifyWinScore(WinScore winScore) {
+		winScoreDao.update(winScore);
+	}
+
+	// 删除加分和扣分信息
+	@Override
+	public void deleteWinScore(WinScore winScore) {
+		winScoreDao.delete(winScore);
+	}
+
+	// 根据主键查找
+	@Override
+	public WinScore searchWinScoreById(int wsId) {
+		WinScore winScore = winScoreDao.searchWinScoreById(wsId);
+		return winScore;
+	}
+
+	// 根据学号查找加扣分信息
+	@Override
+	public List<WinScore> searchWinScoreByUserName(String userName) {
+		List<WinScore> winScoreList = winScoreDao
+				.searchWinScoreByUserName(userName);
+		return winScoreList;
+	}
+
+	// 根据学生会成员的部门查找
+	@Override
+	public List<WinScore> searchWinScoreByApartmentId(String apartmentId) {
+		List<WinScore> winScoreList = winScoreDao
+				.searchWinScoreByApartmentId(apartmentId);
+		return winScoreList;
+	}
+
+	// 查找所有加扣分信息
+	@Override
+	public List<WinScore> searchAllWinScore() {
+		List<WinScore> winScoreList = winScoreDao.searchAllWinScore();
+		return winScoreList;
+	}
+
+}

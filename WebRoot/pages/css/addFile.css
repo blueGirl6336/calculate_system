@@ -1,0 +1,26 @@
+.addfile{
+	margin-top: 30px;
+	float: left;
+	margin-left: 300px;
+}
+.major,.grade{
+	width: 200px;
+}
+.userName,.courseId,.point{
+	width: 180px;
+}
+.label1,.label2,.major,.grade,.userName,.courseId,.point{
+	float: left;
+}
+.label1,.label2{
+	font-size: 20px;
+	font-family: "Microsoft YaHei";
+}
+.label2,.search,.enter{
+	margin-left: 50px;
+}
+.labelTitle{
+	font-size: 24px;
+	font-family: "Microsoft YaHei";
+}
+

@@ -1,0 +1,5 @@
+package com.cesystem.service;
+
+public interface StatisticalReportsService {
+	String getScoreStatisticalReports();
+}

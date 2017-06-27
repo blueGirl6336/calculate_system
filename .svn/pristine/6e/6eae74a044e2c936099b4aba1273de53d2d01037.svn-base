@@ -1,0 +1,31 @@
+package com.cesystem.service;
+
+import java.util.List;
+
+import com.cesystem.pojo.Prize;
+
+public interface PrizeService {
+	
+	/**
+	 * 获取所有奖项
+	 * @return
+	 */
+	public List<Prize> getAll();
+	
+	/**
+	 * 添加奖项
+	 * @param prizeName
+	 * @param prizeDetail
+	 * @return
+	 */
+	public boolean addPrize(String prizeName,String prizeDetail,String prizeNeed);
+
+	/**
+	 * 删除奖项
+	 * @param prizeId
+	 * @return
+	 */
+	public boolean deletePrize(int prizeId);
+	
+
+}

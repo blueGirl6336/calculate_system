@@ -1,0 +1,12 @@
+package com.cesystem.service;
+
+import java.util.List;
+
+import com.cesystem.pojo.ScoreItems;
+
+public interface ScoreItemService {
+
+	public List<ScoreItems> getAll();
+	
+	ScoreItems getById(int siId);
+}

@@ -1,0 +1,8 @@
+package com.cesystem.service;
+
+import com.cesystem.pojo.Course;
+
+public interface CourseService {
+
+	Course searchByCourseName(String courseName);
+}

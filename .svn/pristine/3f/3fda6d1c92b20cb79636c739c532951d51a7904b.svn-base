@@ -1,0 +1,210 @@
+//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+var number = [];
+
+$.ajax({
+		url:"../prize/getAll.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+
+			var dataList = data.data;
+
+			var grid_data = [];
+
+			var col = [];
+			col.push("number");
+			col.push("name");
+			col.push("need");
+			col.push("detail");
+
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("number",dataList[i].prizeId);
+
+				number.push(dataList[i].prizeId);
+
+				temp.put("name",dataList[i].prizeName);
+				temp.put("need",dataList[i].prizeNeed);
+				temp.put("detail",dataList[i].prizeDetail);
+				//temp.put("apartment",dataList[i].apartment);
+				grid_data.push(temp.data);
+			}
+
+			var col_test = [];
+			col_test.push("奖项编号");
+			col_test.push("奖项名称");
+			col_test.push("获奖要求");
+			col_test.push("奖项内容");
+
+			var col_test2 = [];
+
+			for(var i = 0; i<4;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("name",col[i]);
+				temp.put("index",col[i]);
+				temp.put("align","center");
+				if(i!=0)
+				{
+					temp.put("sortable","false");
+				}
+				//temp.put("apartment",dataList[i].apartment);
+				col_test2.push(temp.data);
+			}
+
+
+/*
+			var grid_data = [
+				{number:dataList[0].prizeId,name:dataList[0].prizeName,date:dataList[0].date}
+			];
+			*/
+
+			jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			colNames: col_test,
+			/*
+			colModel: [{
+				name: 'number',
+				index: 'number',
+				//width: 60,
+				align:"center"
+			},{
+				name: 'name',
+				index: 'name',
+				//width: 90,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'need',
+				index: 'need',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			},{
+				name: 'detail',
+				index: 'detail',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			}],
+			*/
+			colModel:col_test2,
+			//rowNum: 5,
+			multiselect:true,
+			height:300,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			//caption: '',
+			autowidth: true,
+			//autoheigth: true,
+			});
+
+		}
+
+	});
+
+var apply;
+
+function applyPrize()
+{
+
+	var select = 0;
+
+	var appealNum = [];
+
+	var result = document.getElementsByTagName("input");
+	for(var i = 0;i<result.length;i++)
+	{
+		if(result[i].checked)
+		{
+			select++;
+			appealNum.push(number[i-1]);
+			//alert("优"+i+number[parseInt(i/4)]);
+		}
+	}
+	if(select<=0)
+	{
+		alert("请选择奖项");
+	}
+	else if(select>1)
+	{
+		alert("只能选择一个奖项");
+	}
+	else
+	{
+		apply = appealNum[0];
+		document.getElementById("appealMyPrize").style.display="block";
+	}
+
+}
+
+function ok()
+{
+
+	var reason;
+	reason = document.getElementById("text").value;
+
+	var type0 = "savePrize";
+
+	$.ajax({
+			url:"../scoreApplication/makeScoreApplication.do",
+			traditional:true,
+			data:{
+				itemId:apply,
+				type:type0,
+				news:reason,
+				objectId:0
+			},
+			type:"get",
+			dataType:"json",
+			success:function(data)
+			{
+				alert("申请成功！");
+				document.getElementById("appealMyPrize").style.display="none";
+
+			}
+		});
+}
+
+
+function cancel()
+{
+	document.getElementById("appealMyPrize").style.display="none";
+}

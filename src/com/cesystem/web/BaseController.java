@@ -1,0 +1,39 @@
+package com.cesystem.web;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cesystem.service.BaseService;
+import com.cesystem.util.ResponseMapUtil;
+
+@Controller
+@RequestMapping(value = "/baseFunction")
+public class BaseController {
+	
+	@Autowired
+	BaseService baseService;
+	
+	
+	
+	@RequestMapping(value = "/changeTerm")
+	@ResponseBody
+	public Map<String, Object> changeTerm(){
+		baseService.changeTerm();
+		
+		return ResponseMapUtil.responseSuccessMess("成功");
+	}
+	
+	@RequestMapping(value = "/calculate")
+	@ResponseBody
+	public Map<String, Object> calculateResults(){
+		baseService.calculateAllResults();
+		
+		return ResponseMapUtil.responseSuccessMess("成功");
+
+	}
+
+}

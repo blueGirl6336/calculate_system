@@ -1,0 +1,27 @@
+package com.cesystem.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.cesystem.dao.CourseDao;
+import com.cesystem.pojo.Course;
+
+@Repository
+public class CourseDaoImpl extends BaseDaoImpl implements CourseDao {
+
+	@Override
+	public Course searchByCourseName(String courseName) {
+		String hql = "from Course as c where c.courseName =" + courseName;
+
+		List<Course> course = (List<Course>) this.getHibernateTemplate().find(hql);
+		
+		if (course.size()!=0 && course != null) {
+			return course.get(0);
+		}
+		else
+			return null;
+
+	}
+
+}

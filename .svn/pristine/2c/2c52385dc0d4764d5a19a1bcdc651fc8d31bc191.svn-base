@@ -1,0 +1,42 @@
+body
+{
+	width:100%;
+	height:1000px;
+}
+
+.navbar-collapse
+{
+	height:1000px;
+}
+#main-info
+{
+	height:1000px;
+	width:1088px;
+}
+#main-table
+{
+	height:880px;
+	width:1035px;
+}
+#see-rank
+{
+	width:1035px;
+}
+#see-rank-table
+{
+	width:1024px;
+	height:600px;
+	border:1px solid red;
+}
+#exit
+{
+	position: absolute;
+	margin-top:15px;
+	margin-left:950px;
+	font-size: 16px;
+	color:#fff;
+}
+#exit:hover
+{
+	cursor: pointer;
+}

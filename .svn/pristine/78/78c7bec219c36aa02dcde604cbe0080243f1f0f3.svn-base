@@ -1,0 +1,92 @@
+//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+
+$.ajax({
+	url:"../student/majorRank.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+
+			var dataList = data;
+			var all_num = dataList.length;
+			var grid_data = [];
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				//temp.push("number":dataList[i].id.studentNumber,"name":dataList[i].id.studentName,"score":dataList[i].id.score,"gradeSort":dataList[i].id.gpaSort);
+				temp.put("number",dataList[i].studentNumber);
+				temp.put("name",dataList[i].name);
+				temp.put("gpa",dataList[i].gpa);
+				temp.put("gpaSort",dataList[i].gpaSort);
+				temp.put("comprehensive",dataList[i].comprehensivePerformance);
+				temp.put("comprehensiveScoreSort",dataList[i].comprehensivePerformanceSort);
+				grid_data.push(temp.data);
+			}
+
+
+				jQuery("#see-rank-table").jqGrid({
+				data: grid_data,
+				datatype: "local",
+				height: 600,
+				colNames: ['学号', '姓名', '纯成绩', '纯成绩排名',"综合成绩","综合成绩排名"],
+				colModel: [{
+					name: 'number',
+					index: 'number',
+					align:"center"
+				},{
+					name: 'name',
+					index: 'name',
+					align:"center"
+				},{
+					name: 'gpa',
+					index: 'gpa',
+					align:"center"
+				},{
+					name: 'gpaSort',
+					index: 'gpaSort',	
+					align:"center"
+				},{
+					name: 'comprehensive',
+					index: 'comprehensive',
+					align:"center"
+				},{
+					name: 'comprehensiveScoreSort',
+					index: 'comprehensiveScoreSort',
+					align:"center"
+				}],
+				rowNum:all_num,
+				width:900,
+				sortname: 'number',
+				viewrecords: true,
+				sortorder: "dsc",
+				autowidth: true,
+				});
+		}
+});

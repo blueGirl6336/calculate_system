@@ -1,0 +1,19 @@
+package com.cesystem.service;
+
+import java.util.List;
+
+import com.cesystem.pojo.Rank;
+import com.cesystem.pojo.Student;
+import com.cesystem.temp.StudentScoreTemp;
+
+public interface StudentService {
+
+	public List<Rank> getClassRank(String classId);
+	public StudentScoreTemp getStudentScoreTempById(int studentId);
+	public List<String> getAllCourse(String classId);
+	public Student getStudentById(int studentId);
+	public List<Student> getAllStudent();
+	public boolean changeApartment(int studentId,int apartmentId);
+
+    public Student searchByUserName(String UserName);
+}

@@ -1,0 +1,39 @@
+.navbar-static-top
+{
+	background:rgb(7,82,121);
+}
+#title
+{
+	margin-left:20px;
+	font-size: 20px;
+	color:#fff;
+}
+.navbar-collapse
+{
+	margin-top:-50px;
+}
+.fa-bar-chart-o
+{
+	background-image: url(../img/score.png);
+}
+.fa-files-o
+{
+	background-image: url(../img/prize.png);
+}
+.fa-wrench
+{
+	background-image: url(../img/eachOther.png);
+}
+.fa-sitemap
+{
+	background-image: url(../img/suggestion.png);
+}
+.arrow
+{
+	background-image: url(../img/below.png);
+}
+
+.fa-user
+{
+	background-image: url(../img/user.png);
+}

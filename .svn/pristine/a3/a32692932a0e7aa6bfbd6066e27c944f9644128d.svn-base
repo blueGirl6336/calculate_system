@@ -1,0 +1,117 @@
+
+var all_num;
+var number = [];
+
+
+$.ajax({
+	url:"../student/allClassScore.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+			var dataList = data;
+			all_num = dataList.length;
+
+			for(var i = 0; i< all_num;i++)
+			{
+
+				$("#tr"+(i+1)+ " .number").text(dataList[i].studentNumber);
+				$("#tr"+(i+1)+ " .name").text(dataList[i].studentName);
+
+				number.push(dataList[i].studentNumber);
+			}
+
+			for(;i<40;i++)
+			{
+				document.getElementById("tr"+(i+1)).style.display="none";
+			}
+
+		}
+});
+
+
+function judge()
+{
+	var good_num = 0;
+	var ok_num = 0;
+	var middle_num = 0;
+	var normal_num = 0;
+
+	var excellent = [];
+	var good = [];
+	var moder = [];
+	var common = [];
+
+
+	var result = document.getElementsByTagName("input");
+	for(var i = 0;i<result.length;i++)
+	{
+		if((result[i].checked)&&(result[i].value=="good"))
+		{
+			good_num++;
+			excellent.push(number[parseInt((i-1)/4)].toString());
+			//alert("优"+i+number[parseInt(i/4)]);
+		}
+		if((result[i].checked)&&(result[i].value=="ok"))
+		{
+			ok_num++;
+			good.push(number[parseInt((i-1)/4)].toString());
+			//alert("良"+i+number[parseInt(i/4)]);
+		}
+		if((result[i].checked)&&(result[i].value=="middle"))
+		{
+			middle_num++;
+			moder.push(number[parseInt((i-1)/4)].toString());
+			//alert("中"+i+number[parseInt(i/4)]);
+		}
+		if((result[i].checked)&&(result[i].value=="normal"))
+		{
+			normal_num++;
+			common.push(number[parseInt((i-1)/4)].toString());
+			//alert("一般"+i+number[parseInt(i/4)]);
+		}
+	}
+
+/*
+	for(var i=0;i<4;i++)
+	{
+		alert(good[i]);
+	}
+*/
+
+
+	if(good_num > (all_num*0.4))
+	{
+		alert("优的数量必须不超过" + all_num*0.4);
+	}else 
+	if(ok_num > (all_num*0.4))
+	{
+		alert("良的数量必须不超过" + all_num*0.4);
+	}else 
+	if(middle_num > (all_num*0.2))
+	{
+		alert("中的数量必须不超过" + all_num*0.2);
+	}else
+	{
+		$.ajax({
+			url:"../PeerEvaluation/makePeerEvaluation.do",
+			traditional:true,
+			data:{
+				stringExc:JSON.stringify(excellent),
+				stringGood:JSON.stringify(good),
+				stringMod:JSON.stringify(moder),
+				stringCom:JSON.stringify(common)
+			},
+			type:"get",
+			dataType:"json",
+			success:function(data)
+			{
+				alert("提交成功！");
+			}
+		});
+	}
+
+
+}

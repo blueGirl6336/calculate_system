@@ -1,0 +1,11 @@
+package com.cesystem.util;
+/**
+ *@author duhw
+ *@date:2016年1月4日 上午10:44:11
+ *
+ */
+public class ConstUtil {
+	public static final String XLS_PATH = "D:/xmls/";
+	public static final String SERVER_PATH = "http://123.207.138.101:8080/xmls/";
+	
+}

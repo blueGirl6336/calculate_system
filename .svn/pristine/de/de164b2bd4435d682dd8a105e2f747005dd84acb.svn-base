@@ -1,0 +1,63 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.ChooseClassDao;
+import com.cesystem.pojo.ChooseClass;
+import com.cesystem.service.ChooseClassService;
+import com.cesystem.util.ExcelUtil;
+
+@Service
+public class ChooseClassServiceImpl implements ChooseClassService {
+
+	@Autowired
+	private ChooseClassDao chooseClassDao;
+
+	//录入学分绩信息
+	@Override
+	public void addChooseClass(ChooseClass chooseClass) {
+		chooseClassDao.add(chooseClass);
+	}
+
+	//修改学分绩信息
+	@Override
+	public void modifyChooseClass(ChooseClass chooseClass) {
+		chooseClassDao.update(chooseClass);
+	}
+
+	//删除学分绩信息
+	@Override
+	public void deleteChooseClass(ChooseClass chooseClass) {
+		chooseClassDao.delete(chooseClass);
+	}
+
+	//根据学号查找学分绩信息
+	@Override
+	public List<ChooseClass> searchChooseClassByUserName(String userName) {
+		List<ChooseClass> winScoreList = chooseClassDao.searchChooseClassByUserName(userName);
+		return winScoreList;
+	}
+
+	//查找所有学分绩信息
+	@Override
+	public List<ChooseClass> searchAllChooseClass() {
+		List<ChooseClass>chooseClassList = chooseClassDao.searchAllChooseClass();
+		return chooseClassList;
+	}
+
+	@Override
+	public ChooseClass searchChooseClassById(int ccId) {
+		ChooseClass chooseClass = chooseClassDao.searchChooseClassById(ccId);
+		return chooseClass;
+	}
+
+	@Override
+	public void addChooseClassByExcel(String path) {
+		new ExcelUtil().addChooseClassByExcel(path);
+	}
+
+	
+}

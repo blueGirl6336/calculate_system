@@ -1,0 +1,78 @@
+package com.cesystem.web;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cesystem.pojo.ChooseClass;
+import com.cesystem.pojo.Course;
+import com.cesystem.pojo.Student;
+import com.cesystem.service.ChooseClassService;
+import com.cesystem.service.StudentService;
+import com.cesystem.util.ResponseMapUtil;
+
+@Controller 
+@RequestMapping(value = "/chooseClass")
+public class ChooseClassController {
+	
+	@Autowired
+	private ChooseClassService chooseClassService;
+	@Autowired
+	private StudentService studentService;
+
+	// 添加学生课程成绩，此处需要前台处理excel后传入一个List
+	@RequestMapping(value = "/addChooseClass")
+	@ResponseBody
+	public Map<String, Object> addChooseClass(@RequestParam List<ChooseClass> chooseClassList){
+
+        for(ChooseClass c : chooseClassList) {
+    		chooseClassService.addChooseClass(c);
+        }
+
+		return ResponseMapUtil.responseSuccess(null);
+	}
+	
+	// 修改学生课程成绩
+	@RequestMapping(value = "/modifyChooseClass")
+	@ResponseBody
+	public Map<String, Object> modifyChooseClass(@RequestParam int ccId, @RequestParam int studentId, 
+			                                  @RequestParam boolean isCurrent, @RequestParam int courseId,
+			                                  @RequestParam String status,@RequestParam double score){
+		
+		ChooseClass chooseClass = chooseClassService.searchChooseClassById(ccId);
+
+		Student student = new Student();
+		student.setStudentId(studentId);
+		Course course = new Course();
+		course.setCourseId(courseId);
+		
+		chooseClass.setCourse(course);
+		chooseClass.setStudent(student);
+		chooseClass.setIsCurrent(isCurrent);
+		chooseClass.setStatus(status);
+		chooseClass.setScore(score);
+		
+		chooseClassService.modifyChooseClass(chooseClass);
+
+		return ResponseMapUtil.responseSuccess(null);
+		
+	}
+	
+	// 删除学生课程成绩
+	@RequestMapping(value = "/deleteChooseClass")
+	@ResponseBody
+	public Map<String, Object> deleteChooseClass(@RequestParam int ccId){
+		
+		ChooseClass chooseClass = chooseClassService.searchChooseClassById(ccId);
+		
+		chooseClassService.deleteChooseClass(chooseClass);
+
+		return ResponseMapUtil.responseSuccess(null);
+		
+	}
+}

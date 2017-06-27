@@ -1,0 +1,9 @@
+package com.cesystem.dao;
+
+import com.cesystem.pojo.Course;
+
+public interface CourseDao extends BaseDao {
+	
+	Course searchByCourseName(String courseName);
+
+}

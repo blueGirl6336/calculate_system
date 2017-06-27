@@ -1,0 +1,101 @@
+package com.cesystem.service.impl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.WinPrizeDao;
+import com.cesystem.pojo.WinPrize;
+import com.cesystem.service.WinPrizeService;
+import com.cesystem.temp.WinPrizeTemp;
+
+@Service
+public class WinPrizeServiceImpl implements WinPrizeService {
+
+	private List<WinPrize> winPrizeList;
+	private WinPrizeTemp winPrizeTemp;
+	private List<WinPrizeTemp> winPrizeTempList;
+	@Autowired
+	private WinPrizeDao winPrizeDao;
+	
+	@Override
+	public List<WinPrizeTemp> getWinPrize(int studentId) {
+		// TODO Auto-generated method stub
+		//��Stringת����ΪDate��ʽ
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		winPrizeList = winPrizeDao.getWinPrize(studentId);
+		winPrizeTemp = new WinPrizeTemp();
+		winPrizeTempList = new ArrayList<WinPrizeTemp>();
+		if(null != winPrizeList)
+		{
+			for(WinPrize item : winPrizeList)
+			{
+				winPrizeTemp.setPrizeId(item.getPrize().getPrizeId());
+				winPrizeTemp.setPrizeName(item.getPrize().getPrizeName());
+				try {
+					winPrizeTemp.setDate(formatter.parse(item.getTime()));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				winPrizeTempList.add(winPrizeTemp);
+			}
+			
+		};
+		if(null != winPrizeTempList)
+			System.out.println(winPrizeTempList.size());
+		return winPrizeTempList;
+	}
+
+    //录入扣分信息和加分信息
+	@Override
+	public void addWinPrize(WinPrize winPrize) {
+		winPrizeDao.add(winPrize);
+	}
+
+	//修改扣分和加分信息
+	@Override
+	public void modifyWinPrize(WinPrize winPrize) {
+		winPrizeDao.update(winPrize);
+	}
+
+	//删除加分和扣分信息
+	@Override
+	public void deleteWinPrize(WinPrize winPrize) {
+		winPrizeDao.delete(winPrize);
+	}
+
+	//根据主键查找
+	@Override
+	public WinPrize searchWinPrizeById(int wpId) {
+		WinPrize winPrize = winPrizeDao.searchWinPrizeById(wpId);
+		return winPrize;
+	}
+	
+	//根据学号查找加扣分信息
+	@Override
+	public List<WinPrize> searchWinPrizeByUserName(String userName) {
+		List<WinPrize> winPrizeList = winPrizeDao.searchWinPrizeByUserName(userName);
+		return winPrizeList;
+	}
+
+	//根据学生会成员的部门查找
+	@Override
+	public List<WinPrize> searchWinPrizeByApartmentId(
+			String apartmentId) {
+		List<WinPrize> winPrizeList = winPrizeDao.searchWinPrizeByApartmentId(apartmentId);
+		return winPrizeList;
+	}
+	
+	//查找所有加扣分信息
+	@Override
+	public List<WinPrize> searchAllWinPrize() {
+		List<WinPrize> winPrizeList = winPrizeDao.searchAllWinPrize();
+				return winPrizeList;
+	}
+
+}

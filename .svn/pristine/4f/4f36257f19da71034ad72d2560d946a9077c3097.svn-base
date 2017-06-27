@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+	<!-- Bootstrap Styles-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+     <!-- FontAwesome Styles-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+        <!-- Custom Styles-->
+    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+     <!-- Google Fonts-->
+   
+       <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+   <title>新生注册</title>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- 顶栏-->
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="main.html"><i class="fa fa-comments"></i> <strong>理学院管理后台</strong></a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a> 
+                    <a href="login.html"><strong>登陆</strong></a>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+
+            
+        </nav>
+        <!--/. NAV TOP  左侧栏目顺序-->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <li>
+                        <a  href="main.html"><i class="fa fa-fw fa-file"></i> <strong>公告</strong> </a>
+                    </li>
+                    <li>
+                        <a href="addNotice.html"><i class="fa fa-edit"></i> <strong>添加新公告</strong></a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="register.html"><i class="fa fa-dashboard"></i> <strong>新生注册</strong></a>
+                    </li>
+                    <li>
+                        <a href="permissionAssign.html"><i class="fa fa-desktop"></i> <strong>权限分配</strong></a>
+                    </li>
+                    <li>
+                        <a  href="review.html"><i class="fa fa-bar-chart-o"></i> <strong>审核</strong></a>
+                    </li>
+                    <li>
+                        <a  href="over.html"><i class="fa fa-sitemap"></i> <strong>一键结束当前学期</strong></a>
+                    </li>
+                    
+                    <li>
+                        <a id="aLogout" href="#"><i class="fa fa-qrcode"></i> <strong>注销登陆</strong></a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper" style="padding-top: 2px;">
+            <!-- 主窗口内容-->
+            <div id="page-inner">
+                <!-- 表格 -->
+                <div class="row">
+                    <div class="col-md-12" style="width: 400px;">
+                        <h1 class="page-header">
+                            <strong>新生注册</strong> <small>理学•土木</small>
+                        </h1>
+                    </div>
+
+                    <div class="col-md-12" style="float: right; width: 250px; height:79px;">
+
+                            <form id="fileForm" enctype="multipart/form-data">
+                                <input type="file" id="inputFile" style="opacity: 0;">
+                            </form>
+
+                        <button id="chooseFile" class="btn btn-danger" style="" type="file"> <strong>选择学生文件</strong> </button> 
+                        
+                        <button id="submitFile" class="btn btn-primary" style=""> <strong>确定注册</strong> </button>
+                        
+
+                    </div>  
+                </div> 
+
+                <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading" >
+                             新生注册表
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20px;"><input type="checkbox" name="chooseAll" id="chooseAll" checked=true/></th>
+                                            <th>学号</th>
+                                            <th>姓名</th>
+                                            <th>班号</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbd">
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+
+                <!-- 表格 -->
+
+
+                 <!-- /. ROW  -->
+                <div style="width: 80%; position:absolute; left: 40%; bottom: 60px">
+                 <footer >
+                    <p style="margin: 0 auto; ">Copyright &copy; 2016.werun All rights reserved.</p>
+                 </footer>
+                </div>
+            </div>
+             <!-- /. PAGE INNER  -->
+        </div>
+
+
+
+
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+     <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+
+      <!-- Custom Js 
+    <script src="assets/js/custom-scripts.js"></script>*
+    
+    <!-- 这里是赋值来的 -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+      <!-- Bootstrap Js -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+
+    <!--这个插件应该是进行加载的，只是加载文件不上传 -->
+    <script src="assets/js/register.js"></script>
+    <script src="assets/js/logout.js"></script>
+    <!-- 导入异步上传jq插件-->
+    <script src="assets/js/ajaxfileupload.js"></script>
+    <script src="assets/js/layer/layer.js"></script>
+     <!-- DATA TABLE SCRIPTS -->
+    <script src="assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+                $('#dataTables-example').dataTable();
+
+            });
+    </script>
+         <!-- Custom Js -->
+    
+
+</body>
+</html>

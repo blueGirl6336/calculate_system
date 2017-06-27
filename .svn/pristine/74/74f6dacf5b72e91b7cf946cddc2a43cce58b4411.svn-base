@@ -1,0 +1,21 @@
+package com.cesystem.util;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+public class TimeUseUtil {
+
+	/**
+	 * 获取当前时间
+	 * 
+	 * @return
+	 */
+	public static Timestamp nowTime() {
+		Timestamp nowTimestamp = null;
+		Date date = new Date();
+		nowTimestamp = new Timestamp(date.getTime());
+
+		return nowTimestamp;
+	}
+
+}

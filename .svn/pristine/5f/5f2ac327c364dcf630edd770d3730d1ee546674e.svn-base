@@ -1,0 +1,11 @@
+$.ajax({
+		url:"../notice/getAllUseful.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+			
+		}
+	});

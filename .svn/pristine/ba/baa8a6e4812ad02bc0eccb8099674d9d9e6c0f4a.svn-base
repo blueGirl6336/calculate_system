@@ -1,0 +1,166 @@
+//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+$.ajax({
+		url:"../student/allClassScore.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+			var dataList = [];
+
+			dataList = data;
+
+			var all_num = dataList.length;
+			
+
+			//使用 例子
+			//var d = new Dictionary();
+			// d.put("CN", "China");
+			// d.put("US", "America");
+
+			var grid_data = [];
+
+			
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				//temp.push("number":dataList[i].id.studentNumber,"name":dataList[i].id.studentName,"score":dataList[i].id.score,"gradeSort":dataList[i].id.gpaSort);
+				temp.put("number",dataList[i].studentNumber);
+				temp.put("name",dataList[i].studentName);
+				temp.put("daily",dataList[i].daily);
+				temp.put("peerEvaluation",dataList[i].peerEvaluation);
+				temp.put("gpa",dataList[i].gpa);
+				temp.put("personality",dataList[i].personalityDevelopment);
+				temp.put("comprehensive",dataList[i].comprehensiveScore);
+				temp.put("gpaSort",dataList[i].gpaSort);
+				temp.put("comprehensiveScoreSort",dataList[i].comprehensiveScoreSort);
+				grid_data.push(temp.data);
+			}
+
+			jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			height: 600,
+			colNames: ['学号', '姓名', '行为分', '他评分',"文化分","个性发展分","综合素质总分","学习专业排名","综合素质专业排名"],
+			colModel: [{
+				name: 'number',
+				index: 'number',
+				//width: 299,
+				//height:30,
+				align:"center"
+			},{
+				name: 'name',
+				index: 'name',
+				//width: 199,
+				//height:30,
+				align:"center"
+				//editable: true
+			},{
+				name: 'daily',
+				index: 'daily',
+				//width: 200,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'peerEvaluation',
+				index: 'peerEvaluation',
+				//width: 200,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'gpa',
+				index: 'gpa',
+				//width: 200,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'personality',
+				index: 'personality',
+				//width: 199,
+				//height:30,
+				align:"center"
+				//editable: true
+			},{
+				name: 'comprehensive',
+				index: 'comprehensive',
+				//width: 200,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'gpaSort',
+				index: 'gpaSort',
+				//width: 200,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'comprehensiveScoreSort',
+				index: 'comprehensiveScoreSort',
+				//width: 200,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			}],
+			rowNum:all_num,
+			width:900,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			//caption: dataList[0].id.classNumber,
+			autowidth: true,
+			//autoheigth: true,
+			});
+
+
+		}
+	});
+
+$.ajax({
+		url:"../student/rank.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+
+		}
+});

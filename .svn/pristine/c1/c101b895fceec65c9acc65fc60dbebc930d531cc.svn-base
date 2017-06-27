@@ -1,0 +1,59 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.PrizeDao;
+import com.cesystem.dao.ScoreItemsDao;
+import com.cesystem.dao.StudentDao;
+import com.cesystem.dao.WinPrizeDao;
+import com.cesystem.dao.WinScoreDao;
+import com.cesystem.pojo.Prize;
+import com.cesystem.pojo.ScoreItems;
+import com.cesystem.pojo.Student;
+import com.cesystem.pojo.WinPrize;
+import com.cesystem.pojo.WinScore;
+import com.cesystem.service.StatisticalReportsService;
+import com.cesystem.util.ExcelUtil;
+@Service
+public class StatisticalRepotrsServiceImpl implements StatisticalReportsService {
+
+	@Autowired
+	private StudentDao studentDao;
+	@Autowired
+	private ScoreItemsDao scoreItemsDao;
+	@Autowired
+	private PrizeDao prizeDao;
+	@Autowired
+	private WinScoreDao winScoreDao;
+	@Autowired
+	private WinPrizeDao winPrizeDao;
+	
+	@Override
+	public String getScoreStatisticalReports() {
+		List<Student> studentList = studentDao.getAllStudent();
+		ExcelUtil excelUtil = new ExcelUtil();
+		return excelUtil.createScoreExcel(studentList);
+	}
+
+	@Override
+	public String getStudentScoreItemsStatisticalReports() {
+		List<Student> studentList = studentDao.getAllStudent();
+        List<ScoreItems> scoreItemsList = scoreItemsDao.getAllScoreItems();
+        List<WinScore> winScoreList = winScoreDao.searchAllWinScore();
+		ExcelUtil excelUtil = new ExcelUtil();
+		return excelUtil.createStudentScoreItemsExcel(studentList, scoreItemsList, winScoreList);
+	}
+
+	@Override
+	public String getStudentPrizeStatisticalReports() {
+		List<Student> studentList = studentDao.getAllStudent();
+        List<Prize> prizeList = prizeDao.getAll();
+        List<WinPrize> winPrizeList = winPrizeDao.searchAllWinPrize();
+		ExcelUtil excelUtil = new ExcelUtil();
+		return excelUtil.createStudentPrizeExcel(studentList, prizeList, winPrizeList);
+	}
+
+}

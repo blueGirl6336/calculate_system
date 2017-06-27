@@ -1,0 +1,13 @@
+package com.cesystem.dao;
+
+import java.util.List;
+
+import com.cesystem.pojo.ScoreApplication;
+
+public interface ScoreApplicationDao extends BaseDao {
+	List<ScoreApplication> searchScoreApplicationByUserName(String userName);
+	List<ScoreApplication> searchScoreApplicationByApartmentId(String apartmentId);
+	List<ScoreApplication> searchAllScoreApplication();
+	
+	public int getLastId();
+}

@@ -1,0 +1,200 @@
+var number = [];
+  
+//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+$.ajax({
+		url:"../winPrize/getPrize.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+
+			var dataList = data;
+
+			var grid_data = [];
+
+			var col = [];
+			col.push("number");
+			col.push("name");
+			col.push("date");
+
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("number",dataList[i].prizeId);
+				temp.put("name",dataList[i].prizeName);
+
+				var timeStr = dataList[i].date; //时间戳你自已取的值
+				var tim = new Date(parseInt(timeStr)); //如果时间戳是后端生成 要 * 1000
+				var year = tim.getFullYear(); //年
+				var month = tim.getMonth() + 1; //月
+				month = month < 10 ? '0' + month : month;
+				var day = tim.getDate();//日
+				day = day < 10 ? '0' + day : day;
+
+				var date = year + '-' + month + '-' + day;
+
+				temp.put("date",date);
+				
+				grid_data.push(temp.data);
+				number.push(dataList[i].prizeId);
+			}
+
+			var col_test = [];
+			col_test.push("奖项编号");
+			col_test.push("奖项名称");
+			col_test.push("获奖日期");
+
+			var col_test2 = [];
+
+			for(var i = 0; i<3;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("name",col[i]);
+				temp.put("index",col[i]);
+				temp.put("align","center");
+				//temp.put("apartment",dataList[i].apartment);
+				col_test2.push(temp.data);
+			}
+
+			jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			colNames: col_test,
+			colModel:col_test2,
+			//rowNum: 5,
+			multiselect:true,
+			height:400,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			//caption: '',
+			autowidth: true,
+			//autoheigth: true,
+			});
+
+		}
+
+	});
+
+
+var apply;
+
+function appeal()
+{
+	var select = 0;
+
+	var appealNum = [];
+
+	var result = document.getElementsByTagName("input");
+	for(var i = 0;i<result.length;i++)
+	{
+		if(result[i].checked)
+		{
+			select++;
+			appealNum.push(number[i-5]);
+			//alert("优"+i+number[parseInt(i/4)]);
+		}
+	}
+	if(select<=0)
+	{
+		alert("请选择奖项");
+	}
+	else if(select>1)
+	{
+		alert("只能选择一个奖项");
+	}
+	else
+	{
+		apply = appealNum[0];
+		document.getElementById("appealMyPrize").style.display="block";
+	}
+
+	// var reason;
+	// reason = document.getElementById("text").value;
+
+
+/*
+	$.ajax({
+			url:"../scoreApplication/makeScoreApplication.do",
+			traditional:true,
+			data:{
+				stringExc:excellent,
+				stringGood:good,
+				stringMod:moder,
+				stringCom:common
+			},
+			type:"get",
+			dataType:"json",
+			success:function(data)
+			{
+				alert("申诉成功！");
+			}
+		});
+
+	*/
+	
+}
+
+function ok()
+{
+
+	var reason;
+	reason = document.getElementById("text").value;
+
+	var type0 = "updatePrize";
+
+	$.ajax({
+			url:"../scoreApplication/makeScoreApplication.do",
+			traditional:true,
+			data:{
+				itemId:apply,
+				type:JSON.stringify(type0),
+				news:JSON.stringify(reason),
+				objectId:0
+			},
+			type:"get",
+			dataType:"json",
+			success:function(data)
+			{
+				alert("申诉成功！");
+				document.getElementById("appealMyPrize").style.display="none";
+
+			}
+		});
+}
+
+
+function cancel()
+{
+	document.getElementById("appealMyPrize").style.display="none";
+}

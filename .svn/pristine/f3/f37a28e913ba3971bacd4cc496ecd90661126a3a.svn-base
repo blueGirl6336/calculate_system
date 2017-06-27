@@ -1,0 +1,32 @@
+package com.cesystem.dao.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.cesystem.dao.MajorDao;
+import com.cesystem.pojo.Classes;
+
+@Repository
+public class MajorDaoImpl extends BaseDaoImpl implements MajorDao {
+
+	@Override
+	public List<Classes> getAllMajorClasses(int majorId) {
+		// TODO Auto-generated method stub
+		List<Classes> classList = new ArrayList<Classes>();
+		String hql = "from " + "Classes" + " where major.majorId=?";
+		classList = (List<Classes>) this.getHibernateTemplate().find(hql, majorId);
+
+		return classList;
+	}
+
+	@Override
+	public Classes getMajorByMajorName(String majorName) {
+		String hql = "from Classes as c where c.majorName = " + majorName;
+		List<Classes> classList = (List<Classes>) this.getHibernateTemplate().find(hql);
+		return classList.get(0);
+		
+	}
+
+}

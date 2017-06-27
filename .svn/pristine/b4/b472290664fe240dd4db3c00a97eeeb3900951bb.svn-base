@@ -1,0 +1,60 @@
+package com.cesystem.dao.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cesystem.dao.WinPrizeDao;
+import com.cesystem.pojo.WinPrize;
+
+@Repository
+public class WinPrizeDaoImpl extends BaseDaoImpl implements WinPrizeDao {
+
+	@Override
+	public List<WinPrize> getWinPrize(int studentId) {
+		List<WinPrize> list = new ArrayList<WinPrize>();
+		String hql = "from " + "WinPrize" + " where student.studentId=? and isCurrent=1";
+		list = (List<WinPrize>) this.getHibernateTemplate().find(hql, studentId);
+		
+		return list;
+	}
+
+	@Override
+	public WinPrize searchWinPrizeById(int wpId) {
+		String hql = "from WinPrize as w where w.wpId =" + wpId;
+		WinPrize winPrize = (WinPrize) this.getHibernateTemplate().find(hql);
+		return winPrize;
+	}
+	
+	@Override
+	public List<WinPrize> searchWinPrizeByUserName(String userName) {
+		String hql = "from WinPrize as w where w.student.users.userName =" + userName;
+		List<WinPrize> winPrizeList = (List<WinPrize>) this.getHibernateTemplate().find(hql);
+		return winPrizeList;
+	}
+
+	@Override
+	public List<WinPrize> searchWinPrizeByApartmentId(String apartmentId) {
+		String hql = "from WinPrize as w where w.prize in (select * from Prize where apartmentId = " + apartmentId + ")";
+		List<WinPrize> winPrizeList = (List<WinPrize>) this.getHibernateTemplate().find(hql);
+		return winPrizeList;
+	}
+	
+	@Override
+	public WinPrize searchByPrizeApplicationId(int paId) {
+		String hql = "from WinPrize as w where w.prizeApplication.paId =" + paId;
+		WinPrize winPrize = (WinPrize) this.getHibernateTemplate().find(hql);
+		return winPrize;
+	}
+	
+	@Override
+	public List<WinPrize> searchAllWinPrize() {
+		String hql = "from WinPrize";
+		List<WinPrize> winPrizeList = (List<WinPrize>) this.getHibernateTemplate().find(hql);
+		return winPrizeList;
+	}
+
+	
+}

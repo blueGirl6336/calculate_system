@@ -1,0 +1,51 @@
+package com.cesystem.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.NoticeDao;
+import com.cesystem.pojo.Notice;
+import com.cesystem.service.NoticeService;
+import com.cesystem.util.TimeUseUtil;
+
+@Service
+public class NoticeServiceImpl implements NoticeService {
+
+	@Autowired
+	NoticeDao noticeDao;
+	
+	@Override
+	public List<Notice> getAllUseful() {
+		
+		
+		return noticeDao.getAllUseful();
+	}
+
+	@Override
+	public void addNormalNotice(String title, String content) {
+		
+		noticeDao.putNotice(title, content, TimeUseUtil.nowTime(), "700001", 0);
+		
+	}
+
+	@Override
+	public boolean cancelNotice(int id) {
+		
+		return noticeDao.modifyStatus(id, "800002");
+		
+	}
+
+	@Override
+	public Notice getLatestNotice() {
+		List<Notice> notices = this.getAllUseful();
+		
+		if(notices != null && notices.size() != 0)
+			return notices.get(0);
+		else {
+			return null;
+		}
+	}
+
+}

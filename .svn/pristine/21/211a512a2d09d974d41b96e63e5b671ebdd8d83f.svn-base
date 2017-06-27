@@ -1,0 +1,166 @@
+$.ajax({
+		url:"../PeerEvaluation/PeerEvaluationScore.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+/*
+			var all_num;
+
+			var dataList = data;
+			all_num = dataList.length;
+
+			for(var i = 0; i< all_num;i++)
+			{
+
+				$("#tr"+(i+1)+ " .number").text(dataList[i].studentNumber);
+				$("#tr"+(i+1)+ " .name").text(dataList[i].studentName);
+				$("#tr"+(i+1)+ " .good").text(dataList[i].excellent);
+				$("#tr"+(i+1)+ " .ok").text(dataList[i].good);
+				$("#tr"+(i+1)+ " .middle").text(dataList[i].moder);
+				$("#tr"+(i+1)+ " .normal").text(dataList[i].common);
+
+				var score = (dataList[i].excellent*40+dataList[i].good*35+dataList[i].moder*30+dataList[i].common*25)/all_num;
+				$("#tr"+(i+1)+ " .score").text(score);
+			}
+
+			for(;i<40;i++)
+			{
+				document.getElementById("tr"+(i+1)).style.display="none";
+			}
+*/
+
+			var dataList = data;
+
+			//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+			var grid_data = [];
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("number",dataList[i].studentNumber);
+				temp.put("name",dataList[i].studentName);
+				temp.put("excellent",dataList[i].excellent);
+				temp.put("good",dataList[i].good);
+				temp.put("common",dataList[i].common);
+				temp.put("moder",dataList[i].moder);
+				temp.put("resultScore",dataList[i].resultScore);
+				grid_data.push(temp.data);
+			}
+
+			/*
+			var grid_data = [
+				{number:dataList[0].studentNumber,name:dataList[0].studentName,excellent:dataList[0].excellent,good:dataList[0].good,common:dataList[0].common,moder:dataList[0].moder,resultScore:dataList[0].resultScore},
+				{number:dataList[1].studentNumber,name:dataList[1].studentName,excellent:dataList[1].excellent,good:dataList[1].good,common:dataList[1].common,moder:dataList[1].moder,resultScore:dataList[1].resultScore},
+				{number:dataList[2].studentNumber,name:dataList[2].studentName,excellent:dataList[2].excellent,good:dataList[2].good,common:dataList[2].common,moder:dataList[2].moder,resultScore:dataList[2].resultScore},
+				{number:dataList[3].studentNumber,name:dataList[3].studentName,excellent:dataList[3].excellent,good:dataList[3].good,common:dataList[3].common,moder:dataList[3].moder,resultScore:dataList[3].resultScore},
+				{number:dataList[4].studentNumber,name:dataList[4].studentName,excellent:dataList[4].excellent,good:dataList[4].good,common:dataList[4].common,moder:dataList[4].moder,resultScore:dataList[4].resultScore},
+				{number:dataList[5].studentNumber,name:dataList[5].studentName,excellent:dataList[5].excellent,good:dataList[5].good,common:dataList[5].common,moder:dataList[5].moder,resultScore:dataList[5].resultScore},
+				{number:dataList[6].studentNumber,name:dataList[6].studentName,excellent:dataList[6].excellent,good:dataList[6].good,common:dataList[6].common,moder:dataList[6].moder,resultScore:dataList[6].resultScore},
+				{number:dataList[7].studentNumber,name:dataList[7].studentName,excellent:dataList[7].excellent,good:dataList[7].good,common:dataList[7].common,moder:dataList[7].moder,resultScore:dataList[7].resultScore},
+				{number:dataList[8].studentNumber,name:dataList[8].studentName,excellent:dataList[8].excellent,good:dataList[8].good,common:dataList[8].common,moder:dataList[8].moder,resultScore:dataList[8].resultScore}
+			];
+			注释结束
+*/
+
+
+
+			jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			colNames: ['学号', '姓名', '优', '良', '中', '一般','综合得分'],
+			colModel: [{
+				name: 'number',
+				index: 'number',
+				//width: 60,
+				align:"center"
+			}, {
+				name: 'name',
+				index: 'name',
+				//width: 90,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'excellent',
+				index: 'excellent',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'good',
+				index: 'good',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'common',
+				index: 'common',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'moder',
+				index: 'moder',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'resultScore',
+				index: 'resultScore',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			}],
+			rowNum: 40,
+			height:600,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			caption: dataList[0].classNumber,
+			autowidth: true,
+			autoheight:true,
+			forceFit:false,
+			});
+
+
+		}
+	});

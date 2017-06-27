@@ -1,0 +1,12 @@
+package com.cesystem.dao.impl;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cesystem.dao.ScoreItemsDao;
+
+@Repository
+@Transactional
+public class ScoreItemsDaoImpl extends BaseDaoImpl implements ScoreItemsDao {
+
+}

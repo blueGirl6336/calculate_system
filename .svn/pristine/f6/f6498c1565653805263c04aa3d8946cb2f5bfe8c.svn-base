@@ -1,0 +1,105 @@
+package com.cesystem.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+/**
+ * WinScore entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "WinScore", schema = "dbo", catalog = "ce_system")
+public class WinScore implements java.io.Serializable {
+
+	// Fields
+
+	private Integer wsId;
+	private ScoreItems scoreItems;
+	private Student student;
+	private Boolean isCurrent;
+	private String time;
+	private ScoreApplication scoreApplication;
+
+	// Constructors
+
+	/** default constructor */
+	public WinScore() {
+	}
+
+	/** minimal constructor */
+	public WinScore(Integer wsId) {
+		this.wsId = wsId;
+	}
+
+	/** full constructor */
+	public WinScore(Integer wsId, ScoreItems scoreItems, Student student,
+			Boolean isCurrent, String time) {
+		this.wsId = wsId;
+		this.scoreItems = scoreItems;
+		this.student = student;
+		this.isCurrent = isCurrent;
+		this.time = time;
+	}
+
+	// Property accessors
+	@Id
+	@Column(name = "ws_id", unique = true, nullable = false)
+	public Integer getWsId() {
+		return this.wsId;
+	}
+
+	public void setWsId(Integer wsId) {
+		this.wsId = wsId;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "si_id")
+	public ScoreItems getScoreItems() {
+		return this.scoreItems;
+	}
+
+	public void setScoreItems(ScoreItems scoreItems) {
+		this.scoreItems = scoreItems;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "student_id")
+	public Student getStudent() {
+		return this.student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	@Column(name = "is_current")
+	public Boolean getIsCurrent() {
+		return this.isCurrent;
+	}
+
+	public void setIsCurrent(Boolean isCurrent) {
+		this.isCurrent = isCurrent;
+	}
+
+	@Column(name = "time")
+	public String getTime() {
+		return this.time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public ScoreApplication getScoreApplication() {
+		return scoreApplication;
+	}
+
+	public void setScoreApplication(ScoreApplication scoreApplication) {
+		this.scoreApplication = scoreApplication;
+	}
+
+}

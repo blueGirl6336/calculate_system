@@ -1,0 +1,12 @@
+package com.cesystem.dao;
+
+import java.util.List;
+
+import com.cesystem.pojo.ScoreItems;
+
+public interface ScoreItemsDao extends BaseDao {
+
+	List<ScoreItems> getAllScoreItems();
+	ScoreItems getById(int siId);
+	
+}

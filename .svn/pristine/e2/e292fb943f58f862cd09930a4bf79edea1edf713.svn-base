@@ -1,0 +1,55 @@
+package com.cesystem.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.cesystem.dao.PrizeApplicationDao;
+import com.cesystem.pojo.PrizeApplication;
+
+@Repository
+public class PrizeApplicationDaoImpl extends BaseDaoImpl implements PrizeApplicationDao {
+
+	@Override
+	public List<PrizeApplication> searchPrizeApplicationByUserName(String userName) {
+		String hql = "from PrizeApplication as p where p.studentByObjectId.users.userName =" + userName + "or p.studentByApplicantId.users.userName = " + userName;
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		return scoreApplicationList;
+	}
+
+	@Override
+	public List<PrizeApplication> searchPrizeApplicationByApartmentId(
+			String apartmentId) {
+		String hql = "from PrizeApplication as pa where pa.prize.prizeId in (select prizeId from Prize as p where p.apartment.apartmentId = " + apartmentId + ")";
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		return scoreApplicationList;
+	}
+	
+	@Override
+	public List<PrizeApplication> searchAllPrizeApplication() {
+		String hql = "from PrizeApplication";
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		return scoreApplicationList;
+	}
+
+	@Override
+	public PrizeApplication searchPrizeApplicationByPaId(int paId) {
+		String hql = "from PrizeApplication as p where p.paId = " + paId;
+		List<PrizeApplication> prizeApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		if (prizeApplicationList.size()!=0 && prizeApplicationList != null)
+		    return prizeApplicationList.get(0);
+		else
+			return null;
+	}
+
+	@Override
+	public List<PrizeApplication> getPrizeApplication(String name) {
+		// TODO Auto-generated method stub
+		String hql = "from PrizeApplication as p where "
+				+ "p.studentByApplicantId.users.userName = ?";
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql, name);
+		return scoreApplicationList;
+	}
+
+
+}

@@ -1,0 +1,46 @@
+package com.cesystem.dao;
+
+import java.util.List;
+
+import com.cesystem.pojo.Classes;
+import com.cesystem.pojo.Rank;
+import com.cesystem.pojo.Student;
+import com.cesystem.pojo.Users;
+
+public interface StudentDao extends BaseDao {
+	
+	/**
+	 * ����ѧ��
+	 * @param user
+	 * @param studentName
+	 * @param classes
+	 * @return
+	 */
+	public boolean addStudent(Users user,String studentName,Classes classes);
+	
+	/**
+	 * ͨ��Id��ȡѧ��
+	 * @param studentId
+	 * @return
+	 */
+	public Student getStudentById(int studentId);
+	
+	/**
+	 * ͨ��classId��ȡ��Ӧ��ͼ�����ж�Ӧ�༶ѧ���ı�ѧ�ڿγ̵ĳɼ��͸�ѧ����������¼
+	 * @param studentId
+	 * @return List<Student>
+	 */
+	public List<Rank> getClassRank(String classId);
+	
+	public List<Rank> getRankById(int studentId);
+
+	public List<Student> getStudentByClassNumber(String ClassNumber);
+	
+	public Student getStudentByUserId(int userId);
+	
+	public List<Student> getAllStudent();
+	
+	Student searchByUserName(String userName);
+	
+    List<Student> searchByName(String name);
+}

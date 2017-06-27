@@ -1,0 +1,21 @@
+package com.cesystem.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.cesystem.pojo.Student;
+import com.cesystem.service.StatisticalReportsService;
+import com.cesystem.util.ExcelUtil;
+@Service
+public class StatisticalRepotrsServiceImpl implements StatisticalReportsService {
+
+	@Override
+	public String getScoreStatisticalReports() {
+		List<Student> studentList = new ArrayList<Student>();
+		ExcelUtil excelUtil = new ExcelUtil();
+		return excelUtil.createFundFlowRecordExcel(studentList);
+	}
+
+}

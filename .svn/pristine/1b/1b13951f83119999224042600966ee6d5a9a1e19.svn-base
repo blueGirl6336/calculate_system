@@ -1,0 +1,124 @@
+package com.cesystem.pojo;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+/**
+ * PrizeApplication entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "PrizeApplication", schema = "dbo", catalog = "ce_system")
+public class PrizeApplication implements java.io.Serializable {
+
+	// Fields
+
+	private Integer paId;
+	private Student studentByObjectId;
+	private Prize prize;
+	private Student studentByApplicantId;
+	private String type;
+	private String status;
+	private String applicationDetail;
+	private String time;
+
+	// Constructors
+
+	/** default constructor */
+	public PrizeApplication() {
+	}
+
+	/** minimal constructor */
+	public PrizeApplication(Integer paId) {
+		this.paId = paId;
+	}
+
+	// Property accessors
+	@Id
+	@GeneratedValue
+	@Column(name = "pa_id", unique = true, nullable = false)
+	public Integer getPaId() {
+		return this.paId;
+	}
+
+	public void setPaId(Integer paId) {
+		this.paId = paId;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "object_id")
+	public Student getStudentByObjectId() {
+		return this.studentByObjectId;
+	}
+
+	public void setStudentByObjectId(Student studentByObjectId) {
+		this.studentByObjectId = studentByObjectId;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "prize_id")
+	public Prize getPrize() {
+		return this.prize;
+	}
+
+	public void setPrize(Prize prize) {
+		this.prize = prize;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "applicant_id")
+	public Student getStudentByApplicantId() {
+		return this.studentByApplicantId;
+	}
+
+	public void setStudentByApplicantId(Student studentByApplicantId) {
+		this.studentByApplicantId = studentByApplicantId;
+	}
+
+	@Column(name = "type", length = 40)
+	public String getType() {
+		return this.type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Column(name = "status", length = 40)
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Column(name = "application_detail")
+	public String getApplicationDetail() {
+		return this.applicationDetail;
+	}
+
+	public void setApplicationDetail(String applicationDetail) {
+		this.applicationDetail = applicationDetail;
+	}
+
+	@Column(name = "time")
+	public String getTime() {
+		return this.time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+}

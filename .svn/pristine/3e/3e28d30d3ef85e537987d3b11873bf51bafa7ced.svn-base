@@ -1,0 +1,146 @@
+html,body
+{
+	height:100%;
+}
+
+#main-info
+{
+	position:absolute;
+	margin-left:260px;
+	background-color: #fff;
+	width:1245px;
+	height:920px;
+}
+#title1
+{
+	margin-left:50px;
+	margin-right: 50px;
+	height:80px;
+	line-height: 80px;
+	border-bottom: 1px solid;
+	border-color: rgb(238,239,243);
+	font-size: 36px;
+	color:rgb(49,51,40);
+	vertical-align: text-bottom;
+}
+#title1 span
+{
+	position: relative;
+	top: 15px;
+}
+#main-table
+{
+	position:absolute;
+	margin-top: 20px;
+	margin-left: 50px;
+	width:1180px;
+	height:800px;
+	border:1px solid;
+	border-color: rgb(238,239,243);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+#see-rank
+{
+	height:40px;
+	line-height: 40px;
+	background-color: rgb(245,245,245);
+	font-size:16px;
+	vertical-align: middle;
+}
+#see-rank span 
+{
+	position: relative;
+	left:15px;
+}
+
+#class
+{
+	width:70px;
+	height:25px;
+	font-size: 14px;
+	position:absolute;
+	margin-left: 20px;
+	margin-top: 8px;
+	border:1px solid;
+	border-color: rgb(238,239,243);
+	background-color: rgb(7,82,121);
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+}
+#major
+{
+	width:70px;
+	height:25px;
+	font-size: 14px;
+	position:absolute;
+	margin-left: 90px;
+	margin-top: 8px;
+	border:1px solid;
+	border-color: rgb(238,239,243);
+	background-color: rgb(51,122,183);
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+}
+/*
+#major
+{
+	width:;
+}*/
+#classRank
+{
+	width:1130px;
+	height:700px;
+	position:absolute;
+	margin-left: 20px;
+	margin-top: 33px;
+	border:1px solid;
+	border-color: rgb(238,239,243);
+}
+
+/*
+.ui-jqgrid .ui-jqgrid-htable th {
+ height: 30px !important;
+}
+.ui-jqgrid tr
+{
+	font-size:16px;
+	height: 40px !important;
+}*/
+.ui-jqgrid tr .jqgrow td
+{
+	font-size:16px;
+ 	height: 40px !important;
+}
+
+#class:hover
+{
+	cursor: pointer;
+}
+#major:hover
+{
+	cursor:pointer;
+}
+
+#exit
+{
+	position: absolute;
+	margin-top:15px;
+	margin-left:1000px;
+	font-size: 16px;
+	color:#fff;
+}
+#studentUnion
+{
+	position: absolute;
+	margin-top:15px;
+	margin-left:880px;
+	font-size: 16px;
+	color:#fff;
+}
+#studentUnion:hover,#exit:hover
+{
+	cursor: pointer;
+}

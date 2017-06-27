@@ -1,0 +1,17 @@
+.temp{
+	position: absolute;
+	left: 260px;
+	width: 1080px;
+}
+.bigtitle{
+	font-family: 微软雅黑;
+	margin-top:10px;
+	font-size: 30px;
+	margin-bottom: 5px;
+}
+.addtitle{
+	font-family: 微软雅黑;
+	margin-left:10px;
+	font-size: 20px;
+}
+

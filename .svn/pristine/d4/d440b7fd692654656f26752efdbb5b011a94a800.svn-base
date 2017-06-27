@@ -1,0 +1,159 @@
+package com.cesystem.dao.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.cesystem.dao.StudentDao;
+import com.cesystem.pojo.Classes;
+import com.cesystem.pojo.Rank;
+import com.cesystem.pojo.Student;
+import com.cesystem.pojo.Users;
+
+@Repository
+public class StudentDaoImpl extends BaseDaoImpl implements StudentDao {
+
+	@Override
+	public boolean addStudent(Users user, String studentName, Classes classes) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Student getStudentById(int studentId) {
+		// TODO Auto-generated method stub
+		List<Student> list = new ArrayList<Student>();
+		String hql = "from " + "Student" + " where studentId=?";
+		list = (List<Student>) this.getHibernateTemplate().find(hql, studentId);
+
+		if (null == list || 0 == list.size())
+			return null;
+		else
+			return list.get(0);
+	}
+
+	@Override
+	public List<Rank> getClassRank(String classId) {
+		// TODO Auto-generated method stub
+		List<Rank> rankList = new ArrayList<Rank>();
+		String hql = "from " + "Rank" + " where id.classNumber=?";
+		String[] param = new String[] { classId };
+		rankList = (List<Rank>) this.getHibernateTemplate().find(hql, param);
+
+		return rankList;
+	}
+
+	@Override
+	public List<Rank> getRankById(int studentId) {
+		// TODO Auto-generated method stub
+		List<Rank> rankList = new ArrayList<Rank>();
+		String hql = "from " + "Rank" + " where id.studentId=?";
+		rankList = (List<Rank>) this.getHibernateTemplate()
+				.find(hql, studentId);
+		return rankList;
+	}
+
+	@Override
+	public List<Student> getStudentByClassNumber(String ClassNumber) {
+		List<Student> studentList = new ArrayList<Student>();
+		String hql = "from " + "Student" + " where classes.classNumber=?";
+		String[] param = new String[] { ClassNumber };
+		studentList = (List<Student>) this.getHibernateTemplate().find(hql,
+				param);
+
+		return studentList;
+	}
+
+	@Override
+	public Student getStudentByUserId(int userId) {
+		// TODO Auto-generated method stub
+		List<Student> list = new ArrayList<Student>();
+		String hql = "from " + "Student" + " where users.userId=?";
+		list = (List<Student>) this.getHibernateTemplate().find(hql, userId);
+
+		return list.get(0);
+	}
+
+	@Override
+	public List<Student> getAllStudent() {
+		// TODO Auto-generated method stub
+		String hql = "FROM Student";
+
+		return this.getHibernateTemplate().find(hql);
+	}
+
+	@Override
+	public Student searchByUserName(String userName) {
+		String hql = "from Student as s where s.users.userName =" + userName;
+		List<Student> students = (List<Student>) this.getHibernateTemplate()
+				.find(hql);
+		if (students.size() != 0) {
+			return students.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Student> searchByName(String name) {
+		String hql = "from Student as s where s.studentName = ?";
+		List<Student> students = (List<Student>) this.getHibernateTemplate()
+				.find(hql, name);
+
+		return students;
+	}
+
+	@Override
+	public List<Student> getStudentByClassNumberSortByGPA(String ClassNumber) {
+		List<Student> studentList = new ArrayList<Student>();
+		String hql = "from " + "Student"
+				+ " where classes.classNumber=? order by gpa desc";
+		String[] param = new String[] { ClassNumber };
+		studentList = (List<Student>) this.getHibernateTemplate().find(hql,
+				param);
+
+		return studentList;
+	}
+
+	@Override
+	public List<Student> getStudentByClassNumberSortByCP(String ClassNumber) {
+		List<Student> studentList = new ArrayList<Student>();
+		String hql = "from "
+				+ "Student"
+				+ " where classes.classNumber=? order by comprehensivePerformance desc";
+		String[] param = new String[] { ClassNumber };
+		studentList = (List<Student>) this.getHibernateTemplate().find(hql,
+				param);
+
+		return studentList;
+	}
+
+	@Override
+	public List<Student> getStudentByGradeAndMajorSortByGPA(int gradeId,
+			int majorId) {
+		List<Student> studentList = new ArrayList<Student>();
+		String hql = "FROM "
+				+ "Student"
+				+ " WHERE classes.grade.gradeId = ? AND classes.major.majorId = ? order by gpa desc";
+		Integer[] param = new Integer[] { gradeId, majorId };
+		studentList = (List<Student>) this.getHibernateTemplate().find(hql,
+				param);
+
+		return studentList;
+	}
+
+	@Override
+	public List<Student> getStudentByGradeAndMajorSortByCP(int gradeId,
+			int majorId) {
+		List<Student> studentList = new ArrayList<Student>();
+		String hql = "FROM "
+				+ "Student"
+				+ " WHERE classes.grade.gradeId = ? AND classes.major.majorId = ? order by comprehensivePerformance desc";
+		Integer[] param = new Integer[] { gradeId, majorId };
+		studentList = (List<Student>) this.getHibernateTemplate().find(hql,
+				param);
+
+		return studentList;
+	}
+}

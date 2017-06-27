@@ -1,0 +1,397 @@
+package com.cesystem.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import oracle.net.aso.l;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cesystem.dao.ApartmentDao;
+import com.cesystem.dao.ClassesDao;
+import com.cesystem.dao.MajorDao;
+import com.cesystem.dao.PeerEvaluationDao;
+import com.cesystem.dao.StudentDao;
+import com.cesystem.dao.UserDao;
+import com.cesystem.dao.WinScoreDao;
+import com.cesystem.pojo.Apartment;
+import com.cesystem.pojo.Classes;
+import com.cesystem.pojo.Major;
+import com.cesystem.pojo.PeerEvaluation;
+import com.cesystem.pojo.Rank;
+import com.cesystem.pojo.Student;
+import com.cesystem.pojo.Users;
+import com.cesystem.pojo.WinScore;
+import com.cesystem.service.StudentService;
+import com.cesystem.temp.MajorRankTemp;
+import com.cesystem.temp.StudentScoreTemp;
+import com.cesystem.temp.StudentSimpleInf;
+import com.cesystem.temp.WinScoreTemp;
+
+@Service
+public class StudentServiceImpl implements StudentService {
+
+	@Autowired
+	private StudentDao studentDao;
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private WinScoreDao winScoreDao;
+	@Autowired
+	private PeerEvaluationDao peerEvaluationDao;
+	@Autowired
+	private ApartmentDao apartmentDao;
+	@Autowired
+	private ClassesDao classesDao;
+	@Autowired
+	private MajorDao majorDao;
+	
+	
+	
+	private Users user;
+	private Student student;
+	@Override
+	public List<Rank> getClassRank(String classId) {
+		// TODO Auto-generated method stub
+		int studentId;
+		List<Rank> rankList = studentDao.getClassRank(classId);
+		if(null != rankList)
+		{
+			for(Rank item : rankList)
+			{
+				studentId = item.getId().getStudentId();
+				student = studentDao.getStudentById(studentId);
+				user = userDao.getUserByUserId(student.getUsers().getUserId());
+				item.getId().setStudentNumber(user.getUserName());
+			}
+		}
+		
+		return rankList;
+	}
+	
+	@Override
+	public List<MajorRankTemp> getMajorRank(Major major)
+	{
+		int studentId;
+		MajorRankTemp majorRankTemp = new MajorRankTemp();
+		Users user = new Users();
+		List<MajorRankTemp> allRankList = new ArrayList<MajorRankTemp>();
+		List<Student> rankList = new ArrayList<Student>();
+		List<Classes> classList = majorDao.getAllMajorClasses(major.getMajorId());
+		if(null != classList && 0 != classList.size())
+		{
+			for(Classes classItem : classList)
+			{
+				rankList = studentDao.getStudentByClassNumber(classItem.getClassNumber());
+				if(null != rankList)
+				{
+					for(Student item : rankList)
+					{
+						user = userDao.getUserByUserId(item.getUsers().getUserId());
+						majorRankTemp = new MajorRankTemp();
+						majorRankTemp.setName(item.getStudentName());
+						majorRankTemp.setStudentNumber(user.getUserName());
+						majorRankTemp.setGpa(item.getGpa());
+						majorRankTemp.setGpaSort(item.getGpaSort());
+						majorRankTemp.setComprehensivePerformance(item.getComprehensivePerformance());
+						majorRankTemp.setComprehensivePerformanceSort(item.getComprehensivePerformanceRanking());
+						allRankList.add(majorRankTemp);
+					}
+				}
+			}
+		}
+		
+		return allRankList;
+	}
+	
+	@Override
+	public List<String> getAllCourse(String classId) {
+		// TODO Auto-generated method stub
+		List<String> resultList = new ArrayList<String>();
+		List<Rank> rankList = studentDao.getClassRank(classId);
+		if(null != rankList && 0 != rankList.size())
+		{
+			for(Rank item : rankList)
+			{
+				if(!resultList.contains(item.getId().getCourseName()))
+				{
+					resultList.add(item.getId().getCourseName());
+				}
+			}
+		}
+		
+		return resultList;
+	}
+
+	public Student getStudentById(int studentId)
+	{
+		student = studentDao.getStudentById(studentId);
+		return student;
+	}
+
+	@Override
+	public StudentScoreTemp getStudentScoreTempById(int studentId) {
+		// TODO Auto-generated method stub
+		double personalityDevelopment = 0;			//总个性发展分
+		double personalityDevelopmentCollege = 0;	//科技竞赛个性发展发展分
+		double studentWorkPerDev = 0;				//学生工作个性发展分
+		double socialPracticePerDev = 0;			//社会实践个性发展分
+		double daily = 0;							//日常行为分
+		double peerEvaluation = 0;					//ͬ同学互评成绩
+		int excellentNumber = 0;
+		int goodNumber = 0;
+		int moderNumber = 0;
+		int commonNumber = 0;
+		Student student = new Student();
+		List<Student> studentList = new ArrayList<Student>();
+		WinScore winscore = new WinScore();
+		List<PeerEvaluation> listPeerEvaluation = new ArrayList<PeerEvaluation>();
+		
+		StudentScoreTemp studentScoreTemp = new StudentScoreTemp();		//返回结果
+		
+		List<Rank> rankList = new ArrayList<Rank>();
+		rankList = studentDao.getRankById(studentId);
+		
+		//计算日常行为分和个性发展分
+		List<WinScore> winScoreList = winScoreDao.getWinScoreByStudentId(studentId);
+		List<WinScoreTemp> winscoreTempList = new ArrayList<WinScoreTemp>();
+		WinScoreTemp winScoreTemp = new WinScoreTemp();
+		if(null != winScoreList)
+		{
+			for(WinScore item : winScoreList)
+			{
+				//设置对应的奖项名称等信息
+				winScoreTemp.setScore(item.getScoreItems().getScore());
+				winScoreTemp.setScoreName(item.getScoreItems().getItemName());
+				winScoreTemp.setWinScoreId(item.getWsId());
+				
+				winScoreTemp.setSiId(item.getScoreItems().getSiId());
+				
+				if(item.getScoreItems().getScoreType().equals("300001"))		//日常行为
+				{
+					daily += item.getScoreItems().getScore();
+					winScoreTemp.setScoreType("日常行为分");
+				}
+				else
+				{
+					winScoreTemp.setScoreType("个性发展分");
+					
+					if(item.getScoreItems().getScoreType().equals("300002"))	//科技竞赛个性发展分
+					{
+						personalityDevelopmentCollege += item.getScoreItems().getScore();
+					}
+					else if(item.getScoreItems().getScoreType().equals("300004"))	//学生工作个性发展分
+					{
+						studentWorkPerDev += item.getScoreItems().getScore();
+					}
+					else if(item.getScoreItems().getScoreType().equals("300005"))	//社会实践个性发展分
+					{
+						if(socialPracticePerDev < item.getScoreItems().getScore())
+							socialPracticePerDev = item.getScoreItems().getScore();
+					}
+				}
+				
+				winscoreTempList.add(winScoreTemp);
+			}
+		}
+		if(20 < daily)
+		{
+			daily = 20;
+		}
+		if(2 < personalityDevelopmentCollege)
+		{
+			personalityDevelopmentCollege = 2;
+		}
+		else if(2 < studentWorkPerDev)
+		{
+			studentWorkPerDev = 2;
+		}
+		
+		personalityDevelopment = personalityDevelopmentCollege 
+				+ studentWorkPerDev + socialPracticePerDev;		//计算总的个性发展分
+		//计算同学互评成绩
+		listPeerEvaluation = peerEvaluationDao.getPeerEvaluationByObjectId(studentId);
+		student = studentDao.getStudentById(studentId);
+		studentList = studentDao.getStudentByClassNumber(student.getClasses().getClassNumber());
+		if(null != studentList || 0 != studentList.size())
+		if(null != listPeerEvaluation)
+		{
+			for(PeerEvaluation item : listPeerEvaluation)
+			{
+				if(item.getLevel().equals("500001"))
+				{
+					excellentNumber ++;
+				}
+				else if(item.getLevel().equals("500002"))
+				{
+					goodNumber ++;
+				}
+				else if(item.getLevel().equals("500003"))
+				{
+					moderNumber ++;
+				}
+				else if(item.getLevel().equals("500004"))
+				{
+					commonNumber ++;
+				}
+			}
+			peerEvaluation = (excellentNumber * 40 + goodNumber * 35 + moderNumber * 30 + commonNumber * 25) / studentList.size();
+		}
+		
+		//将winscoreTempList按照siId排序
+		int sortNumber = 0;
+		int index = 0;
+		int i = 0;
+		List<WinScoreTemp> listResult = new ArrayList<WinScoreTemp>();
+		if(0 != winscoreTempList.size())
+		{
+			sortNumber = winscoreTempList.get(0).getSiId();
+			while(0 != winscoreTempList.size())
+			{
+				i = 0;
+				for(WinScoreTemp item :winscoreTempList)
+				{
+					if(sortNumber > item.getSiId())
+					{
+						sortNumber = item.getSiId();
+						index = i;
+					}
+					i ++;
+				}
+				listResult.add(winscoreTempList.get(index));
+				winscoreTempList.remove(index);
+			}
+		}
+		//���Ͻ���
+		studentScoreTemp.setStudentNumber(student.getUsers().getUserName()); 	//����ѧ��
+		studentScoreTemp.setStudentName(student.getStudentName()); 				//����ѧ������
+		studentScoreTemp.setPeerEvaluation(peerEvaluation); 					//���û�����
+		studentScoreTemp.setGpa(student.getGpa()); 								//���ô��ɼ�
+		studentScoreTemp.setGpaSort(student.getGpaSort()); 						//���ô��ɼ�����
+		studentScoreTemp.setComprehensiveScore(student.getComprehensivePerformance()); //�����ۺϳɼ�
+		studentScoreTemp.setComprehensiveScoreSort(student.getComprehensivePerformanceRanking().intValue()); //�����ۺϳɼ�����
+		studentScoreTemp.setDaily(daily);										//����ƽʱ��
+		studentScoreTemp.setPersonalityDevelopment(personalityDevelopment);		//���ø��Է�չ��
+		studentScoreTemp.setWinScoreTempList(listResult);					//���û�����Ϣ
+		
+		return studentScoreTemp;
+	}
+
+	@Override
+	public List<Student> getAllStudent() {
+		// TODO Auto-generated method stub
+
+		return studentDao.getAllStudent();
+	}
+
+	@Override
+	public boolean changeApartment(int studentId, int apartmentId) {
+		// TODO Auto-generated method stub
+		Student student = studentDao.getStudentById(studentId);
+		Apartment apartment = apartmentDao.getById(apartmentId);
+		student.setApartment(apartment);
+		studentDao.update(student);
+		
+		return true;
+	}
+
+    @Override
+	public Student searchByUserName(String userName) {
+    	Student student = studentDao.searchByUserName(userName);
+    	
+		return student;
+	}
+    
+    @Override
+   	public StudentSimpleInf searchByUserName2(String userName) {
+       	Student student = studentDao.searchByUserName(userName);
+       	StudentSimpleInf simpleInf = new StudentSimpleInf();
+       	
+       	if(student.getClasses() != null)
+       		simpleInf.setClassNumber(student.getClasses().getClassNumber());
+       	
+       	simpleInf.setPassword(student.getUsers().getPassword());
+       	simpleInf.setStudentName(student.getStudentName());
+       	simpleInf.setUserName(student.getUsers().getUserName());
+       	simpleInf.setStudentId(student.getStudentId());
+   		return simpleInf;
+   	}
+
+	@Override
+	public List<StudentSimpleInf> searchByName(String name) {
+		List<StudentSimpleInf> simpleInfs = new ArrayList<StudentSimpleInf>() ;
+		List<Student>students = studentDao.searchByName(name);
+		StudentSimpleInf simpleInf =null;
+
+		for(Student student: students) {
+			simpleInf = new StudentSimpleInf();
+	       	if(student.getClasses() != null)
+	       		simpleInf.setClassNumber(student.getClasses().getClassNumber());
+	    	simpleInf.setPassword(student.getUsers().getPassword());
+	    	simpleInf.setStudentName(student.getStudentName());
+	    	simpleInf.setUserName(student.getUsers().getUserName());
+	    	simpleInf.setStudentId(student.getStudentId());
+	    	simpleInfs.add(simpleInf);
+		}
+		
+		
+		return simpleInfs;
+	}
+
+	@Override
+	public String studentRegister(List<StudentSimpleInf> studentSimpleInfs) {
+		String result = "";
+		Student student = null;
+		Users users = null;
+		Classes classes = null;
+		
+		for(StudentSimpleInf s : studentSimpleInfs){
+			student = new Student();
+			users = new Users();
+			classes = new Classes();
+			
+			if(userDao.getUserByUserName(s.getUserName())!=null) {
+				result += s.getStudentName()+" "+s.getUserName()+" 学号已存在/n";
+				continue;
+			}
+				
+			users.setUserName(s.getUserName());
+			users.setPassword(s.getPassword());
+			userDao.add(users);
+			
+			classes = classesDao.getClassesByNumber(s.getClassNumber());
+			if(classes == null) {
+				result += s.getStudentName()+" "+s.getUserName()+" 班级不存在/n";
+				continue;
+			}
+			student.setClasses(classes);
+			student.setUsers(users);
+			
+			student.setStudentName(s.getStudentName());
+			studentDao.add(student);
+		}
+		
+		
+		return result;
+	}
+
+	@Override
+	public List<Student> getAllClassStudent(int studentId) {
+		// TODO Auto-generated method stub
+		Student student = studentDao.getStudentById(studentId);
+		String classNumber = student.getClasses().getClassNumber();
+		return studentDao.getStudentByClassAndSortByStudentNumber(classNumber);
+	}
+
+	@Override
+	public List<Student> getMajorStudent(int studentId) {
+		// TODO Auto-generated method stub
+		Student student = studentDao.getStudentById(studentId);
+		int gradeId = student.getClasses().getGrade().getGradeId();
+		int majorId = student.getClasses().getMajor().getMajorId();
+		
+		return studentDao.getStudentByGradeAndMajorSortByGPA(gradeId, majorId);
+	}
+
+}

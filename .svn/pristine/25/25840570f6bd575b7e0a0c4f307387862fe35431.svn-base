@@ -1,0 +1,14 @@
+package com.cesystem.dao;
+
+import java.util.List;
+
+import com.cesystem.pojo.PrizeApplication;
+
+public interface PrizeApplicationDao extends BaseDao {
+	List<PrizeApplication> searchPrizeApplicationByUserName(String userName);
+
+	List<PrizeApplication> searchPrizeApplicationByApartmentId(
+			String apartmentId);
+
+	List<PrizeApplication> searchAllPrizeApplication();
+}

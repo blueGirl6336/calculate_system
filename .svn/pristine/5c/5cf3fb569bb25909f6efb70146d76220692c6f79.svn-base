@@ -1,0 +1,8 @@
+package com.cesystem.service;
+
+import com.cesystem.pojo.Major;
+
+public interface ClassesService {
+
+	public Major getMajor(int studentId);
+}

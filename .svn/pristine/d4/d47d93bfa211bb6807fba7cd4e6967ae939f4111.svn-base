@@ -1,0 +1,38 @@
+package com.cesystem.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cesystem.dao.PrizeApplicationDao;
+import com.cesystem.pojo.PrizeApplication;
+
+@Repository
+@Transactional
+public class PrizeApplicationDaoImpl extends BaseDaoImpl implements PrizeApplicationDao {
+
+	@Override
+	public List<PrizeApplication> searchPrizeApplicationByUserName(String userName) {
+		String hql = "from PrizeApplication as p where p.studentByObjectId.users.userName =" + userName + "or p.studentByApplicantId.users.userName = " + userName;
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		return scoreApplicationList;
+	}
+
+	@Override
+	public List<PrizeApplication> searchPrizeApplicationByApartmentId(
+			String apartmentId) {
+		String hql = "from PrizeApplication as p where p.prize in (select * from Prize where apartmentId = " + apartmentId + ")";
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		return scoreApplicationList;
+	}
+	
+	@Override
+	public List<PrizeApplication> searchAllPrizeApplication() {
+		String hql = "from PrizeApplication";
+		List<PrizeApplication> scoreApplicationList = (List<PrizeApplication>) this.getHibernateTemplate().find(hql);
+		return scoreApplicationList;
+	}
+
+
+}

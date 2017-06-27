@@ -1,0 +1,250 @@
+/*var query = window.location.search;
+query = query.slice(1);
+query = query.split('&');
+
+var userName = 0;
+var password = 0;
+
+for(var i=0; i<query.length; i++){
+    var content = query[i].split('=');
+    var key = content[0];
+    var value = content[1];
+    if(key == 'userName'){
+        userName = value;
+    }
+    if(key == 'password')
+    {
+    	password = value;
+    }
+}
+
+location.href=location.href+""*/
+
+
+$.ajax({
+		url:"../PeerEvaluation/PeerEvaluationScore.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+			var dataList = data;
+
+			//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+			var grid_data = [];
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("number",dataList[i].studentNumber);
+				temp.put("name",dataList[i].studentName);
+				temp.put("excellent",dataList[i].excellent);
+				temp.put("good",dataList[i].good);
+				temp.put("common",dataList[i].common);
+				temp.put("moder",dataList[i].moder);
+				temp.put("resultScore",dataList[i].resultScore);
+				grid_data.push(temp.data);
+			}
+
+			/*
+			var grid_data = [
+				{number:dataList[0].studentNumber,name:dataList[0].studentName,excellent:dataList[0].excellent,good:dataList[0].good,common:dataList[0].common,moder:dataList[0].moder,resultScore:dataList[0].resultScore},
+				{number:dataList[1].studentNumber,name:dataList[1].studentName,excellent:dataList[1].excellent,good:dataList[1].good,common:dataList[1].common,moder:dataList[1].moder,resultScore:dataList[1].resultScore},
+				{number:dataList[2].studentNumber,name:dataList[2].studentName,excellent:dataList[2].excellent,good:dataList[2].good,common:dataList[2].common,moder:dataList[2].moder,resultScore:dataList[2].resultScore},
+				{number:dataList[3].studentNumber,name:dataList[3].studentName,excellent:dataList[3].excellent,good:dataList[3].good,common:dataList[3].common,moder:dataList[3].moder,resultScore:dataList[3].resultScore},
+				{number:dataList[4].studentNumber,name:dataList[4].studentName,excellent:dataList[4].excellent,good:dataList[4].good,common:dataList[4].common,moder:dataList[4].moder,resultScore:dataList[4].resultScore},
+				{number:dataList[5].studentNumber,name:dataList[5].studentName,excellent:dataList[5].excellent,good:dataList[5].good,common:dataList[5].common,moder:dataList[5].moder,resultScore:dataList[5].resultScore},
+				{number:dataList[6].studentNumber,name:dataList[6].studentName,excellent:dataList[6].excellent,good:dataList[6].good,common:dataList[6].common,moder:dataList[6].moder,resultScore:dataList[6].resultScore},
+				{number:dataList[7].studentNumber,name:dataList[7].studentName,excellent:dataList[7].excellent,good:dataList[7].good,common:dataList[7].common,moder:dataList[7].moder,resultScore:dataList[7].resultScore},
+				{number:dataList[8].studentNumber,name:dataList[8].studentName,excellent:dataList[8].excellent,good:dataList[8].good,common:dataList[8].common,moder:dataList[8].moder,resultScore:dataList[8].resultScore}
+			];
+*/
+			jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			colNames: ['学号', '姓名', '优', '良', '中', '一般','综合得分'],
+			colModel: [{
+				name: 'number',
+				index: 'number',
+				//width: 60,
+				align:"center"
+			}, {
+				name: 'name',
+				index: 'name',
+				//width: 90,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'excellent',
+				index: 'excellent',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'good',
+				index: 'good',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'common',
+				index: 'common',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'moder',
+				index: 'moder',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			},{
+				name: 'resultScore',
+				index: 'resultScore',
+				//width: 80,
+				//height:30,
+				align:"center"
+				// align: "right",
+				// editable: true
+			}],
+			rowNum: 10,
+			height: 450,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			caption: dataList[0].classNumber,
+			autowidth: true,
+			//autoheigth: true,
+			});
+		}
+	});
+
+
+/*
+var grid_data = 
+			[ 
+				{id:"1",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"2",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"3",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"4",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"5",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"6",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"7",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"8",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"9",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"10",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"11",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"12",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"13",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"14",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"15",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"16",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"17",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"18",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"19",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"20",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"21",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"22",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"23",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"24",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"},
+				{id:"25",invdate:"2007-12-03",name:"Client1",amount:"1000.00",tax:"140.00",total:"1000.00", note:"This is a note"}
+			];
+		jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			height: 250,
+			colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
+			colModel: [{
+				name: 'id',
+				index: 'id',
+				width: 55
+			}, {
+				name: 'invdate',
+				index: 'invdate',
+				width: 90,
+				editable: true
+			}, {
+				name: 'name',
+				index: 'name',
+				width: 100,
+				editable: true
+			}, {
+				name: 'amount',
+				index: 'amount',
+				width: 80,
+				align: "right",
+				editable: true
+			}, {
+				name: 'tax',
+				index: 'tax',
+				width: 80,
+				align: "right",
+				editable: true
+			}, {
+				name: 'total',
+				index: 'total',
+				width: 80,
+				align: "right",
+				editable: true
+			}, {
+				name: 'note',
+				index: 'note',
+				width: 150,
+				sortable: false,
+				editable: true
+			}],
+			rowNum: 10,
+			rowList: [10, 20, 30],
+			pager: '#prowed3',
+			sortname: 'id',
+			viewrecords: true,
+			sortorder: "asc",
+			editurl: "server.html",
+			caption: "Inline navigator",
+			autowidth: true
+			});
+			jQuery("#rowed3").jqGrid('navGrid', "#prowed3", {
+				edit: false,
+				add: false,
+				del: false
+			});
+			jQuery("#rowed3").jqGrid('inlineNav', "#prowed3");
+			// Add tooltips 
+			$('.navtable .ui-pg-button').tooltip({container:'body'});
+			*/

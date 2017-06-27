@@ -1,0 +1,102 @@
+$.ajax({
+		url:"../prize/getAll.do",
+		data:{
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data)
+		{
+
+			var dataList = data.data;
+
+			//创建键值对数组
+			function Dictionary(){
+				this.data = new Array();
+				 
+				this.put = function(key,value){
+				  	this.data[key] = value;
+				};
+
+				this.get = function(key){
+				  	return this.data[key];
+				};
+
+				this.remove = function(key){
+				  	this.data[key] = null;
+				};
+				 
+				this.isEmpty = function(){
+				  	return this.data.length == 0;
+				};
+
+				this.size = function(){
+				  	return this.data.length;
+				};
+			}
+
+			var grid_data = [];
+
+			for(var i=0;i<dataList.length;i++)
+			{
+				var temp = new Dictionary();
+				temp.put("number",dataList[i].prizeId);
+				temp.put("name",dataList[i].prizeName);
+				temp.put("need",dataList[i].prizeNeed);
+				temp.put("detail",dataList[i].prizeDetail);
+				//temp.put("apartment",dataList[i].apartment);
+				grid_data.push(temp.data);
+			}
+
+/*
+			var grid_data = [
+				{number:dataList[0].prizeId,name:dataList[0].prizeName,date:dataList[0].date}
+			];
+			*/
+
+			jQuery("#see-rank-table").jqGrid({
+			data: grid_data,
+			datatype: "local",
+			colNames: ['奖项编号 ', '奖项名称', '获奖要求','奖项内容'],
+			colModel: [{
+				name: 'number',
+				index: 'number',
+				//width: 60,
+				align:"center"
+			},{
+				name: 'name',
+				index: 'name',
+				//width: 90,
+				//height:30,
+				align:"center"
+				//editable: true
+			}, {
+				name: 'need',
+				index: 'need',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			},{
+				name: 'detail',
+				index: 'detail',
+				//width: 100,
+				//height:30,
+				align:"center"
+				//editable: true
+			}],
+			//rowNum: 5,
+			height:300,
+			//rowList: [10, 20, 30],
+			//pager: '#prowed3',
+			sortname: 'number',
+			viewrecords: true,
+			sortorder: "dsc",
+			//editurl: "server.html",
+			//caption: '',
+			autowidth: true,
+			//autoheigth: true,
+			});
+
+		}
+
+	});
